@@ -3,16 +3,24 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { LoginComponent } from './components/login/login.component';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from "./services/auth.service";
+import {HttpModule} from "@angular/http";
+import {routing} from "./app.routing";
+import {UrlPermission} from "./urlPermission/url.permission";
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,HttpModule,FormsModule,routing, 
   ],
-  providers: [],
+  providers: [AuthService, UrlPermission],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
