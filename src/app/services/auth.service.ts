@@ -2,36 +2,21 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions,Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {AppComponent} from "../app.component";
-@Injectable()
-export class AuthService {
-  constructor(public http: Http) { }
+@Injectable() export class AuthService { constructor(public http: Http) { }
 
   public logIn(username: string, password: string){
 
-    let options = this.createOptionsHeader(username, password);
+    let headers = new Headers({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'});
+    let options = new RequestOptions({ headers: headers });
+    let params = new URLSearchParams();
 
-    return this.http.get(AppComponent.API_URL+"/login", options)
+    params.append('username', username);
+    params.append('password', password);    
+
+    return this.http.post(AppComponent.API_URL+"/authenticate", params.toString(), options)
       .map((response: Response) => {
-
-      let user = response.json().principal;
-      if (user) localStorage.setItem('currentUser', JSON.stringify(user));
-    });
-  }
-
-  private createOptionsHeader(username: string, password: string) {
-
-    let headers = new Headers();
-    headers.append('Accept', 'application/json')
-
-    // FIXME: Uncomment when backend login implements encrypted login
-    // var base64Credential: string = btoa( username+ ':' + password);
-    var base64Credential: string = username + ':' + password;
-    headers.append("Authorization", "Basic " + base64Credential);
-
-    let options = new RequestOptions();
-    options.headers = headers;
-
-    return options
+        localStorage.setItem('currentUser', JSON.stringify(username));
+      });
   }
 
   logOut() {
