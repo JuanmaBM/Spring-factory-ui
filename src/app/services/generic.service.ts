@@ -1,5 +1,5 @@
 import {AppComponent} from "../app.component";
-import { Http } from '@angular/http';
+import { Headers, Http, RequestOptions } from '@angular/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
@@ -7,6 +7,9 @@ import 'rxjs/add/operator/map';
  * Generic class wicht implements CRUD functionality to a specified class
  */
 @Injectable() export abstract class GenericService {
+
+    private headers = new Headers({'Content-type': 'application/json;charset=UTF-8'});
+    private options = new RequestOptions({ headers: this.headers });
 
     constructor(public http: Http) { }
         
@@ -28,9 +31,11 @@ import 'rxjs/add/operator/map';
 
     private getResponseBody = (response: any) => response.json();
 
-    public post = (body: string) => this.http.post(this.buildResourceUrl(undefined), body);
+    public post = (body: string) => 
+        this.http.post(this.buildResourceUrl(undefined), body, this.options);
 
-    public put = (id: number, body: string) => this.http.put(this.buildResourceUrl(id), body);
+    public put = (id: number, body: string) => 
+        this.http.put(this.buildResourceUrl(id), body, this.options);
 
     public delete = (id: number) => this.http.delete(this.buildResourceUrl(id));
 

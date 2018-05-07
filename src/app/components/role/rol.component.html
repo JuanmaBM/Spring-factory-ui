@@ -1,0 +1,73 @@
+
+<div class="container">
+    <h1>Rol</h1>
+
+    <div style="margin: auto; max-width: 600px;">
+      <data-table
+        [items]="roles"
+        [itemCount]="rolesCount"
+        (reload)="reloadCars($event)"
+        (create)="showForm($event)"
+    
+        [pagination]="false"
+        [indexColumn]="true"
+        [multiSelect]="false"
+        >
+        <data-table-column
+          property="name"
+          header="Name"
+          sortable="true">
+        </data-table-column>
+        <data-table-column
+          header="Permissions">
+          <ng-template #dataTableCell let-item="item">
+            <div *ngFor="let i of item.permissions">
+              <span >{{i.name}}</span>
+            </div>
+          </ng-template>
+        </data-table-column>
+        <data-table-column
+          header="Actions">
+          <ng-template #dataTableHeader let-item="item">
+            <i>Actions</i>
+          </ng-template>
+          <ng-template #dataTableCell let-item="item">
+            <button (click)="carClicked(item)" class="btn btn-sm btn-default">Edit</button>
+            <button (click)="deleteRole(item.id)" class="btn btn-sm btn-default">Delete</button>
+          </ng-template>
+        </data-table-column>
+      </data-table>
+
+      <div *ngIf="showRoleForm">
+          <h1>New Rol</h1>
+
+          <form #roleForm="ngForm">
+
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" [(ngModel)]="role.name" #name="ngModel" name="name" class="form-control" 
+                id="name" required>
+              <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                Name is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="name">Permissions</label>
+              <select [(ngModel)]="role.permissions" #permission="ngModel" name="permission" class="form-control" 
+                id="permission" multiple="true" required>
+                <option *ngFor="let permission of permissions" 
+                  [ngValue]="permission">{{permission.name}}</option>
+              </select>
+              <div [hidden]="permission.valid || permission.pristine" class="alert alert-danger">
+                Permissions are required
+              </div>
+            </div>
+       
+            <button type="button" [disabled]="!roleForm.form.valid" (click)="createRole(); roleForm.reset();" class="btn btn-success">Create</button>
+
+          </form>
+      </div>
+    </div>
+
+</div>

@@ -6,7 +6,7 @@ import {UrlPermission} from "./urlPermission/url.permission";
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'role', component: RoleComponent},
+  { path: 'role', component: RoleComponent, canActivate: [UrlPermission]},
 
   { path: '**', redirectTo: 'login' }
 ];

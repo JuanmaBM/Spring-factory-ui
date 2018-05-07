@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {HttpModule} from "@angular/http";
 
 import { AppComponent } from './app.component';
+import { DataTableModule } from './components/data-table';
 import { LoginComponent } from './components/login/login.component';
 import { RoleComponent } from "./components/role/role.component";
 
@@ -21,7 +22,7 @@ import {routing} from "./app.routing";
     RoleComponent,
   ],
   imports: [
-    BrowserModule,HttpModule,FormsModule,routing, 
+    BrowserModule,HttpModule,FormsModule,routing,DataTableModule
   ],
   providers: [AuthService, UrlPermission, RoleService],
   bootstrap: [AppComponent]
