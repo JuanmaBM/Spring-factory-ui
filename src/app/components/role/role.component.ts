@@ -24,34 +24,53 @@ export class RoleComponent implements OnInit {
   roleResource = new DataTableResource(this.roles);
   rolesCount = 0;
   showRoleForm = false;
+  isEditRoleAction = false;
 
   ngOnInit() {
     this.getRoles();
   }
 
-  carClicked(car) {
-    alert(car.name);
-  }
-
-  reloadCars(params) {
+  reload(params) {
     this.getRoles();    
   }
 
   showForm() {
+    this.role = new Role();
     this.showRoleForm = true;
+  }
+
+  closeForm() {
+    this.showRoleForm = false;
+    this.isEditRoleAction = false;
+  }
+
+  editRoleAction(roleSelected) {
+    this.role = roleSelected
+    this.showRoleForm = true;
+    this.isEditRoleAction = true;
   }
 
   createRole() {
     this.roleService.post(JSON.stringify(this.role)).subscribe(res => {
-      this.reloadCars(undefined);
+      this.reload(undefined);
       this.showRoleForm = false;
     });
   }
 
-  deleteRole(id: number) {
-    this.roleService.delete(id).subscribe(_ => this.reloadCars(undefined));
+  editRole() {
+    let roleId = this.role.id;
+    let body = JSON.stringify(this.role)
+
+    this.roleService.put(roleId, body).subscribe(_ => this.showRoleForm = false);
   }
 
+  deleteRole(id: number) {
+    this.roleService.delete(id).subscribe(_ => this.reload(undefined));
+  }
+
+  /**
+   * Retrieves all roles and counts the ocurrences
+   */
   private getRoles() {
     this.roleService.get().subscribe(roles => {
       this.roles = roles

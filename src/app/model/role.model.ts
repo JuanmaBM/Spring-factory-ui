@@ -1,7 +1,7 @@
 import { Permission } from "./permission.mode";
 
 export class Role {
-    id: string;
+    id: number;
     name: string;
     permission: Array<Permission>;
 }
