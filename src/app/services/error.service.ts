@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material';
     
   constructor(public snacker: MatSnackBar) { }
 
-  public throwError = (message: string) =>
-    this.snacker.open(message, 'Close', { verticalPosition: "bottom" });
+  public throwError = (message: string, time: number = 5000) =>
+    this.snacker.open(message, 'Close', { verticalPosition: "bottom", duration: time });
 
 }
