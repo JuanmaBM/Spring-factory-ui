@@ -29,9 +29,20 @@ import { routing } from "./app.routing";
     UserComponent,
   ],
   imports: [
-    BrowserModule,HttpModule,FormsModule,routing,DataTableModule,MatSnackBarModule,BrowserAnimationsModule
+    BrowserModule,
+    HttpModule,
+    FormsModule,
+    routing,
+    DataTableModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule
   ],
-  providers: [AuthService, UrlPermission, RoleService, UserService, ErrorService],
+  providers: [AuthService,
+    UrlPermission, 
+    RoleService, 
+    UserService, 
+    ErrorService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
