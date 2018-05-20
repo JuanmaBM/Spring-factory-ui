@@ -5,6 +5,8 @@ import { DataTable, DataTableResource } from '../data-table';
 import { User } from '../../model/user.model';
 import { ErrorService } from '../../services/error.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RoleService } from '../../services/role.service';
+import { Role } from '../../model/role.model';
 
 @Component({
   selector: 'app-user',
@@ -15,18 +17,21 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class UserComponent implements OnInit {
 
   @ViewChild(DataTable) userTable: DataTable;
-  constructor(private userService: UserService, private router: Router, private errorService: ErrorService) { }
+  constructor(private userService: UserService, private router: Router, 
+    private errorService: ErrorService, private roleService: RoleService) { }
 
   model = new User();
   modelList = new Array<User>();
   userResource = new DataTableResource(this.modelList);
+  roles = new Array<Role>();
 
   showForm = false;
   isEditAction = false;
   itemCount = 0;
 
   ngOnInit() {
-    this.getAll()
+    this.getAll();
+    this.getRoles();
   }
 
   reload(params) {
@@ -37,6 +42,7 @@ export class UserComponent implements OnInit {
     this.model = new User();
     this.isEditAction = false;
     this.showForm = true;
+    this.getRoles();
   }
 
   closeForm() {
@@ -48,6 +54,7 @@ export class UserComponent implements OnInit {
     this.model = userSelected
     this.showForm = true;
     this.isEditAction = true;
+    this.getRoles();
   }
 
   create() {
@@ -74,4 +81,7 @@ export class UserComponent implements OnInit {
       this.modelList = users;
       this.itemCount = users.length;
   });
+
+  private getRoles = () => this.roleService.get().subscribe(roles => this.roles = roles);
+
 }
