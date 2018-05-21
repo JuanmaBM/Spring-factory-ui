@@ -1,0 +1,129 @@
+<div class="container">
+    <h1>User</h1>
+
+    <div style="margin: auto; max-width: 600px;">
+      <data-table
+        [items]="modelList"
+        [itemCount]="itemCount"
+        (reload)="reload($event)"
+        (create)="openForm($event)"
+    
+        [pagination]="false"
+        [multiSelect]="false"
+        >
+        <data-table-column
+          property="nif"
+          header="NIF"
+          sortable="true">
+        </data-table-column>
+        <data-table-column
+          property="name"
+          header="Name"
+          sortable="true">
+        </data-table-column>
+        <data-table-column
+          property="surname"
+          header="Surname"
+          sortable="true">
+        </data-table-column>
+        <data-table-column
+          property="phoneNumber"
+          header="Phone"
+          sortable="true">
+        </data-table-column>
+        <data-table-column
+          property="email"
+          header="Email"
+          sortable="true">
+        </data-table-column>
+        <data-table-column
+          header="Role">
+          <ng-template #dataTableCell let-item="item">
+            <span>{{item.rol ? item.rol.name : ''}}</span>
+          </ng-template>
+        </data-table-column>
+        <data-table-column
+          header="Actions">
+          <ng-template #dataTableHeader let-item="item">
+            <i>Actions</i>
+          </ng-template>
+          <ng-template #dataTableCell let-item="item">
+            <button (click)="editAction(item)" class="btn btn-sm btn-default">Edit</button>
+            <button (click)="delete(item.id)" class="btn btn-sm btn-default">Delete</button>
+          </ng-template>
+        </data-table-column>
+      </data-table>
+
+      <div *ngIf="showForm">
+          <h1>New User</h1>
+
+          <form #modelForm="ngForm">
+
+            <div class="form-group">
+              <label for="nif">NIF</label>
+              <input type="text" [(ngModel)]="model.nif" #nif="ngModel" name="nif" class="form-control" 
+                id="nif" required>
+              <div [hidden]="nif.valid || nif.pristine" class="alert alert-danger">
+                NIF is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" [(ngModel)]="model.name" #name="ngModel" name="name" class="form-control" 
+                id="name" required>
+              <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                Name is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="surname">Surname</label>
+              <input type="text" [(ngModel)]="model.surname" #surname="ngModel" name="surname" class="form-control" 
+                id="surname" required>
+              <div [hidden]="surname.valid || surname.pristine" class="alert alert-danger">
+                Surname is required
+              </div>
+            </div>
+       
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="text" [(ngModel)]="model.phoneNumber" #phone="ngModel" name="phone" class="form-control" 
+                id="phone" required>
+              <div [hidden]="phone.valid || phone.pristine" class="alert alert-danger">
+                Phone number is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" [(ngModel)]="model.email" #email="ngModel" name="email" class="form-control" 
+                id="email">
+            </div>
+
+            <div *ngIf="!isEditAction" class="form-group">
+              <label for="password">Password</label>
+              <input type="password" [(ngModel)]="model.password" #password="ngModel" name="password" class="form-control" 
+                id="password">
+            </div>
+
+            <div class="form-group">
+              <label for="rol">Role</label>
+              <select [(ngModel)]="model.rol" #rol="ngModel" name="rol" class="form-control" 
+                id="rol" required>
+                <option *ngFor="let rol of roles" 
+                  [ngValue]="rol">{{rol.name}}</option>
+              </select>
+            </div>
+
+            <button type="button" *ngIf="!isEditAction" [disabled]="!modelForm.form.valid" 
+              (click)="create(); modelForm.reset();" class="btn btn-success">Create</button>
+            <button type="button" *ngIf="isEditAction" [disabled]="!modelForm.form.valid" 
+              (click)="edit();" class="btn btn-success">Edit</button>
+            <button type="button" (click)="closeForm();" class="btn btn-default">Close</button>
+
+          </form>
+      </div>
+    </div>
+
+</div>
