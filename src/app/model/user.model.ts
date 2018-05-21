@@ -1,5 +1,12 @@
+import { Role } from "./role.model";
+
 export class User {
-    id: string;
-    username: string;
+    id: number;
+    nif: string;
+    name: string;
+    surname: string;
     password: string;
+    phoneNumber: string;
+    email: string;
+    rol: Role;
 }
