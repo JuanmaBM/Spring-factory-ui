@@ -6,6 +6,10 @@ import {UrlPermission} from "./urlPermission/url.permission";
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
+<<<<<<< Updated upstream
+=======
+  { path: 'user', component: UserComponent, canActivate: [UrlPermission]},
+>>>>>>> Stashed changes
   { path: 'role', component: RoleComponent, canActivate: [UrlPermission]},
 
   { path: '**', redirectTo: 'login' }
