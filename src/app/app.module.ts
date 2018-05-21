@@ -11,10 +11,12 @@ import { DataTableModule } from './components/data-table';
 import { LoginComponent } from './components/login/login.component';
 import { RoleComponent } from "./components/role/role.component";
 import { UserComponent } from "./components/user/user.component";
+import { GroupComponent } from "./components/group/group.component";
 
 import { AuthService } from "./services/auth.service";
 import { RoleService } from "./services/role.service";
 import { UserService } from "./services/user.service";
+import { GroupService } from "./services/group.service";
 import { ErrorService } from "./services/error.service";
 
 import { UrlPermission } from "./urlPermission/url.permission";
@@ -27,6 +29,7 @@ import { routing } from "./app.routing";
     LoginComponent,
     RoleComponent,
     UserComponent,
+    GroupComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { routing } from "./app.routing";
     UrlPermission, 
     RoleService, 
     UserService, 
+    GroupService, 
     ErrorService
   ],
   bootstrap: [AppComponent]
