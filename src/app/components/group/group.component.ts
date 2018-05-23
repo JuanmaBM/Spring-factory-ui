@@ -3,6 +3,7 @@ import { GroupService } from "../../services/group.service";
 import {Router} from "@angular/router";
 import { DataTable, DataTableResource } from '../data-table';
 import { Group } from '../../model/group.model';
+import { ErrorService } from '../../services/error.service';
 
 
 @Component({
@@ -14,58 +15,65 @@ import { Group } from '../../model/group.model';
 export class GroupComponent implements OnInit {
 
   @ViewChild(DataTable) groupsTable: DataTable;
-  constructor(private groupService: GroupService, private router: Router) { }
+  constructor(private groupService: GroupService, private errorService: ErrorService,
+    private router: Router) { }
 
-  groups = new Array<Group>();
-  group = new Group();
-  tableResource = new DataTableResource(this.groups);
+  model = new Group();
+  modelList = new Array<Group>();
+  tableResource = new DataTableResource(this.modelList);
 
-  rowCount = 0;
-  showFormFlag = false;
+  showForm = false;
   isEditAction = false;
- 
-  ngOnInit() {
+  itemCount = 0;
 
+  ngOnInit() {
+    this.getAll();
   }
 
   reload(params) {
     this.getAll();    
   }
 
-  showForm() {
-    this.group = new Group();
-    this.showFormFlag = true;
+  openForm() {
+    this.model = new Group();
+    this.isEditAction = false;
+    this.showForm = true;
   }
 
   closeForm() {
-    this.showFormFlag = false;
+    this.showForm = false;
     this.isEditAction = false;
   }
 
-  editRoleAction(roleSelected) {
-    this.group = roleSelected
-    this.showFormFlag = true;
+  editAction(modelSelected) {
+    this.model = modelSelected
+    this.showForm = true;
     this.isEditAction = true;
   }
 
-  createRole() {
-    this.groupService.post(JSON.stringify(this.group)).subscribe(res => {
+  create() {
+    this.groupService.post(JSON.stringify(this.model)).subscribe(res => {
       this.reload(undefined);
-      this.showFormFlag = false;
-    });
+      this.showForm = false;
+    }, errorResponse => this.errorService.throwError(errorResponse));
   }
 
-  editRole() {
-    let roleId = this.group.id;
-    let body = JSON.stringify(this.group)
+  edit() {
+    let Id = this.model.id;
+    let body = JSON.stringify(this.model)
 
-    this.groupService.put(roleId, body).subscribe(_ => this.showFormFlag = false);
+    this.groupService.put(Id, body).subscribe(_ => this.showForm = false, 
+      errorResponse => this.errorService.throwError(errorResponse));
   }
 
-  deleteRole(id: number) {
+  delete(id: number) {
     this.groupService.delete(id).subscribe(_ => this.reload(undefined));
   }
 
-  private getAll = () => this.groupService.get().subscribe(groups => this.groups = groups)
+  private getAll = () => this.groupService.get().subscribe(res => {
+      let list = !!res ? res : [];
+      this.modelList = list;
+      this.itemCount = list.length;
+  });
 
 }
