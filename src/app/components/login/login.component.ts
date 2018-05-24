@@ -19,10 +19,9 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-      console.log("entrando en login ...")
-      console.log("valor usr: ", this.user);
-    this.authService.logIn(this.user.username, this.user.password)
+    localStorage.setItem('currentUser', JSON.stringify(this.user.name));
+/*     this.authService.logIn(this.user.name, this.user.password)
       .subscribe(data => this.router.navigate(['/']),
-        err => this.errorMessage = err);
+        err => this.errorMessage = err); */
   }
 }
