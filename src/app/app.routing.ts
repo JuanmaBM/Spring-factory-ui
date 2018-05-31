@@ -4,6 +4,7 @@ import { RoleComponent } from "./components/role/role.component";
 import { UrlPermission } from "./urlPermission/url.permission";
 import { UserComponent } from './components/user/user.component';
 import { GroupComponent } from './components/group/group.component'
+import { ProductionScheduleComponent } from './components/production-schedule/production-schedule.component'
 
 
 const appRoutes: Routes = [
@@ -11,6 +12,7 @@ const appRoutes: Routes = [
   { path: 'role', component: RoleComponent, canActivate: [UrlPermission]},
   { path: 'user', component: UserComponent, canActivate: [UrlPermission]},
   { path: 'group', component: GroupComponent, canActivate: [UrlPermission]},
+  { path: 'schedule', component: ProductionScheduleComponent, canActivate: [UrlPermission]},
 
   { path: '**', redirectTo: 'login' }
 ];

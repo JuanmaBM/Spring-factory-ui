@@ -1,4 +1,4 @@
-export class ProductSchedule {
+export class ProductionSchedule {
     name: string;
     estimatedStartDate: Date;
     estimatedFinishDate: Date;

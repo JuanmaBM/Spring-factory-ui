@@ -12,11 +12,13 @@ import { LoginComponent } from './components/login/login.component';
 import { RoleComponent } from "./components/role/role.component";
 import { UserComponent } from "./components/user/user.component";
 import { GroupComponent } from "./components/group/group.component";
+import { ProductionScheduleComponent } from "./components/production-schedule/production-schedule.component";
 
 import { AuthService } from "./services/auth.service";
 import { RoleService } from "./services/role.service";
 import { UserService } from "./services/user.service";
 import { GroupService } from "./services/group.service";
+import { ProductionScheduleService } from "./services/production-schedule.service";
 import { ErrorService } from "./services/error.service";
 
 import { UrlPermission } from "./urlPermission/url.permission";
@@ -30,6 +32,7 @@ import { routing } from "./app.routing";
     RoleComponent,
     UserComponent,
     GroupComponent,
+    ProductionScheduleComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { routing } from "./app.routing";
     RoleService, 
     UserService, 
     GroupService, 
-    ErrorService
+    ErrorService,
+    ProductionScheduleService,
   ],
   bootstrap: [AppComponent]
 })

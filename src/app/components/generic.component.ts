@@ -66,10 +66,12 @@ export abstract class GenericComponent implements OnInit {
     this.getGenericService().delete(id).subscribe(_ => this.reload(undefined));
   }
 
-  private getAll = () => this.getGenericService().get().subscribe(res => {
-      let list = !!res ? res : [];
-      this.modelList = list;
-      this.itemCount = list.length;
-  });
+  getAll(){ 
+      this.getGenericService().get().subscribe(res => {
+        let list = !!res ? res : [];
+        this.modelList = list;
+        this.itemCount = list.length;
+      });
+  }
 
 }
