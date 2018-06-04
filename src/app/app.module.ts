@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from "@angular/http";
 
-import { MatSnackBarModule } from '@angular/material';
+import { MatSnackBarModule, MatFormFieldModule, MatTabsModule, MatInputModule, MatGridListModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -13,6 +13,7 @@ import { RoleComponent } from "./components/role/role.component";
 import { UserComponent } from "./components/user/user.component";
 import { GroupComponent } from "./components/group/group.component";
 import { ProductionScheduleComponent } from "./components/production-schedule/production-schedule.component";
+import { ProductionScheduleDetailsComponent } from './components/production-schedule/details/production-schedule-details.component';
 
 import { AuthService } from "./services/auth.service";
 import { RoleService } from "./services/role.service";
@@ -33,6 +34,7 @@ import { routing } from "./app.routing";
     UserComponent,
     GroupComponent,
     ProductionScheduleComponent,
+    ProductionScheduleDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,11 @@ import { routing } from "./app.routing";
     routing,
     DataTableModule,
     MatSnackBarModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatGridListModule
   ],
   providers: [AuthService,
     UrlPermission, 
