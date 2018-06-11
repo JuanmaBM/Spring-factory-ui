@@ -24,22 +24,84 @@
                     <mat-form-field>
                         <input matInput placeholder="Estimated finish date" value="{{schedule.estimatedFinishDate | date:'yyyy-MM-dd'}}" disabled>
                     </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile colspan="2">
-                    <mat-form-field>
-                        <input matInput placeholder="Real start date" value="{{schedule.realStartDate | date:'yyyy-MM-dd'}}" disabled>
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile colspan="2">
-                    <mat-form-field>
-                        <input matInput placeholder="real finish date" value="{{schedule.realFinishDate | date:'yyyy-MM-dd'}}" disabled>
-                    </mat-form-field>
-                </mat-grid-tile>
-            </mat-grid-list>
-        </mat-tab>
-        <mat-tab label="orders">
-        <h1>Some more tab content</h1>
-        <p>...</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Real start date" value="{{schedule.realStartDate | date:'yyyy-MM-dd'}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="real finish date" value="{{schedule.realFinishDate | date:'yyyy-MM-dd'}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </mat-tab>
+            <mat-tab label="orders">
+
+                <mat-accordion>
+                    <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Create Order
+                            </mat-panel-title>
+                            </mat-expansion-panel-header>
+                                <form #orderForm="ngForm">
+                                    <mat-form-field class="small-input">
+                                            <input matInput placeholder="Name" [(ngModel)]="order.name" #name="ngModel" name="name"
+                                            id="name" required>
+                                    </mat-form-field>
+                                    <mat-form-field class="small-input">
+                                        <mat-select placeholder="Measurement" [(ngModel)]="order.measurement" #measurement="ngModel" 
+                                        name="measurement">
+                                            <mat-option *ngFor="let measurement of measurements" [value]="measurement">
+                                                {{ measurement }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field class="large-input">
+                                        <input matInput placeholder="Description" [(ngModel)]="order.description" #description="ngModel" 
+                                            name="description" id="description" required>
+                                    </mat-form-field>
+                                    <div class="small-input">
+                                        <button mat-raised-button color="primary">Create</button>
+                                    </div>
+                                </form>
+                    </mat-expansion-panel (opened)="panelOpenState = true"
+                    (closed)="panelOpenState = false">
+
+                </mat-accordion>
+                
+
+                <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+                
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+                    </ng-container>
+                
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                    </ng-container>
+                
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="description">
+                        <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+                    </ng-container>
+                
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="measurements">
+                        <mat-header-cell *matHeaderCellDef> Measurements </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.measurements}} </mat-cell>
+                    </ng-container>
+                
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
         </mat-tab>
     </mat-tab-group>
 

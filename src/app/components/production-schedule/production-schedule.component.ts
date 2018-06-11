@@ -37,4 +37,8 @@ export class ProductionScheduleComponent extends GenericComponent {
     return this.errorService;
   }
 
+  public config(item) {
+    
+  }
+
 }

@@ -3,9 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from "@angular/http";
 
-import { MatSnackBarModule, MatFormFieldModule, MatTabsModule, MatInputModule, MatGridListModule } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import { DataTableModule } from './components/data-table';
 import { LoginComponent } from './components/login/login.component';
@@ -24,6 +21,19 @@ import { ErrorService } from "./services/error.service";
 
 import { UrlPermission } from "./urlPermission/url.permission";
 import { routing } from "./app.routing";
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule,
+   MatFormFieldModule,
+   MatTabsModule,
+   MatInputModule,
+   MatGridListModule,
+   MatCardModule,
+   MatSelectModule,
+   MatButtonModule,
+   MatExpansionModule,
+   MatTableModule } from '@angular/material';
+import { OrderService } from './services/order.service';
 
 
 @NgModule({
@@ -47,7 +57,12 @@ import { routing } from "./app.routing";
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatGridListModule
+    MatGridListModule,
+    MatCardModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatTableModule 
   ],
   providers: [AuthService,
     UrlPermission, 
@@ -56,6 +71,7 @@ import { routing } from "./app.routing";
     GroupService, 
     ErrorService,
     ProductionScheduleService,
+    OrderService,
   ],
   bootstrap: [AppComponent]
 })
