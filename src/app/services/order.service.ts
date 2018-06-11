@@ -12,7 +12,7 @@ import { GenericService } from "./generic.service";
 
     private buildResourceUrl(idTask: number, idOrder?: number) {
 
-        let url = AppComponent.API_URL + "/schedule/" + idTask;
+        let url = AppComponent.API_URL + "/schedule/" + idTask + "/order";
 
         if(idOrder) {
             url += "/" + idOrder
