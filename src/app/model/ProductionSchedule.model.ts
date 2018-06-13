@@ -1,4 +1,5 @@
 export class ProductionSchedule {
+    id: number;
     name: string;
     estimatedStartDate: Date;
     estimatedFinishDate: Date;
