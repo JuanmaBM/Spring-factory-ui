@@ -1,6 +1,7 @@
 import { Component, OnInit, NgModule, ViewEncapsulation, ViewChild } from '@angular/core';
 import { OrderService } from "../../services/order.service";
 import { Order } from '../../model/order.model';
+import { Task } from '../../model/task.model';
 import { ErrorService } from '../../services/error.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -14,6 +15,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class OrderComponent implements OnInit {
 
   order: Order = new Order();
+	task: Task = new Task();
 
   constructor(private orderService: OrderService, private errorService: ErrorService, private router: Router,
         private route: ActivatedRoute) {}
