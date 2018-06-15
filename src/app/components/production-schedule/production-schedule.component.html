@@ -1,0 +1,92 @@
+<div class="container">
+    <h1>Group</h1>
+
+    <div style="margin: auto; max-width: 600px;">
+      <data-table
+        [items]="modelList"
+        [itemCount]="itemCount"
+        (reload)="reload($event)"
+        (create)="openForm($event)"
+    
+        [pagination]="false"
+        [multiSelect]="false"
+        >
+        <data-table-column
+          property="name"
+          header="Name"
+          sortable="true">
+        </data-table-column>
+        <data-table-column
+          header="Estimated start date">
+          <ng-template #dataTableCell let-item="item">
+              <span>{{item.estimatedStartDate | date:'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </data-table-column>
+        <data-table-column
+          header="Estimated finish date">
+          <ng-template #dataTableCell let-item="item">
+              <span>{{item.estimatedFinishDate | date:'yyyy-MM-dd'}}</span>
+          </ng-template>
+        </data-table-column>
+        <data-table-column
+          property="state"
+          header="State"
+          sortable="true">
+        </data-table-column>
+        <data-table-column
+          header="Actions">
+          <ng-template #dataTableHeader let-item="item">
+            <i>Actions</i>
+          </ng-template>
+          <ng-template #dataTableCell let-item="item">
+            <button (click)="editAction(item)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-edit"></i></button>
+            <button (click)="delete(item.id)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-trash"></i></button>
+            <button (click)="config(item.id)" routerLink="/schedule/{{item.id}}" routerLinkActive="active"
+             class="btn btn-sm btn-default"><i class="glyphicon glyphicon-cog"></i></button>
+          </ng-template>
+        </data-table-column>
+      </data-table>
+
+      <div *ngIf="showForm">
+          <h1>New Production Schedule</h1>
+
+          <form #modelForm="ngForm">
+
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" [(ngModel)]="model.name" #name="ngModel" name="name" class="form-control" 
+                id="name" required>
+              <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                Name is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="estimatedStartDate">Estimated start date</label>
+              <input type="date" [(ngModel)]="model.estimatedStartDate" #estimatedStartDate="ngModel" 
+                name="estimatedStartDate" class="form-control" id="estimatedStartDate" required>
+              <div [hidden]="estimatedStartDate.valid || estimatedStartDate.pristine" class="alert alert-danger">
+                Estimated start date is required
+              </div>
+            </div>
+       
+            <div class="form-group">
+              <label for="finish">Estimated finish date</label>
+              <input type="date" [(ngModel)]="model.estimatedFinishDate" #estimatedFinishDate="ngModel" 
+                name="estimatedFinishDate" class="form-control" id="estimatedFinishDate" required>
+              <div [hidden]="estimatedFinishDate.valid || estimatedFinishDate.pristine" class="alert alert-danger">
+                Estimated finish date is required
+              </div>
+            </div>
+
+            <button type="button" *ngIf="!isEditAction" [disabled]="!modelForm.form.valid" 
+              (click)="create(); modelForm.reset();" class="btn btn-success">Create</button>
+            <button type="button" *ngIf="isEditAction" [disabled]="!modelForm.form.valid" 
+              (click)="edit();" class="btn btn-success">Edit</button>
+            <button type="button" (click)="closeForm();" class="btn btn-default">Close</button>
+
+          </form>
+      </div>
+    </div>
+    
+</div>

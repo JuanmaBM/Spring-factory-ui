@@ -7,6 +7,7 @@ import {AppComponent} from "../app.component";
   public logIn(username: string, password: string){
 
     let headers = new Headers({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'});
+    headers.append('Access-Control-Allow-Origin', '*');
     let options = new RequestOptions({ headers: headers });
     let params = new URLSearchParams();
 
