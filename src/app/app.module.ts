@@ -18,6 +18,7 @@ import { RoleService } from "./services/role.service";
 import { UserService } from "./services/user.service";
 import { GroupService } from "./services/group.service";
 import { ProductionScheduleService } from "./services/production-schedule.service";
+import { TaskService } from "./services/task.service";
 import { ErrorService } from "./services/error.service";
 
 import { UrlPermission } from "./urlPermission/url.permission";
@@ -74,6 +75,7 @@ import { OrderService } from './services/order.service';
     ErrorService,
     ProductionScheduleService,
     OrderService,
+    TaskService,
   ],
   bootstrap: [AppComponent]
 })
