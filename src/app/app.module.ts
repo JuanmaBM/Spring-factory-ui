@@ -11,6 +11,7 @@ import { UserComponent } from "./components/user/user.component";
 import { GroupComponent } from "./components/group/group.component";
 import { ProductionScheduleComponent } from "./components/production-schedule/production-schedule.component";
 import { ProductionScheduleDetailsComponent } from './components/production-schedule/details/production-schedule-details.component';
+import { OrderComponent } from "./components/order/order.component";
 
 import { AuthService } from "./services/auth.service";
 import { RoleService } from "./services/role.service";
@@ -45,6 +46,7 @@ import { OrderService } from './services/order.service';
     GroupComponent,
     ProductionScheduleComponent,
     ProductionScheduleDetailsComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,
