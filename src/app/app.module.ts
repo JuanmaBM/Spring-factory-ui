@@ -12,6 +12,8 @@ import { GroupComponent } from "./components/group/group.component";
 import { ProductionScheduleComponent } from "./components/production-schedule/production-schedule.component";
 import { ProductionScheduleDetailsComponent } from './components/production-schedule/details/production-schedule-details.component';
 import { OrderComponent } from "./components/order/order.component";
+import { DialogFormTaskComponent } from "./components/task/form/dialog-form-task.component";
+import { FormTaskComponent } from "./components/task/form/dialog-form-task.component";
 
 import { AuthService } from "./services/auth.service";
 import { RoleService } from "./services/role.service";
@@ -34,7 +36,10 @@ import { MatSnackBarModule,
    MatSelectModule,
    MatButtonModule,
    MatExpansionModule,
-   MatTableModule } from '@angular/material';
+   MatTableModule,
+   MatDialog,
+   MatDialogModule
+    } from '@angular/material';
 import { OrderService } from './services/order.service';
 
 
@@ -48,6 +53,11 @@ import { OrderService } from './services/order.service';
     ProductionScheduleComponent,
     ProductionScheduleDetailsComponent,
     OrderComponent,
+    DialogFormTaskComponent,
+    FormTaskComponent
+  ],
+  entryComponents: [
+    FormTaskComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +75,8 @@ import { OrderService } from './services/order.service';
     MatSelectModule,
     MatButtonModule,
     MatExpansionModule,
-    MatTableModule 
+    MatTableModule,
+    MatDialogModule
   ],
   providers: [AuthService,
     UrlPermission, 
@@ -76,6 +87,7 @@ import { OrderService } from './services/order.service';
     ProductionScheduleService,
     OrderService,
     TaskService,
+    MatDialog
   ],
   bootstrap: [AppComponent]
 })
