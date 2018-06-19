@@ -1,4 +1,4 @@
 <h1>{{order.name}}</h1>
 <h3>{{order.description}}</h3>
 
-<app-dialog-form-task></app-dialog-form-task>
+<app-dialog-form-task (change)=receiveChange($event)></app-dialog-form-task>

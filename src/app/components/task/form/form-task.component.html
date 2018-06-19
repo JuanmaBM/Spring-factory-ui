@@ -1,1 +1,27 @@
 <h1>Task form</h1>
+<mat-divider></mat-divider>
+
+    <form #taskForm="ngForm" class="task-form">
+        <mat-form-field class="large-input">
+            <input matInput placeholder="Name" [(ngModel)]="task.name" name="name">
+        </mat-form-field>
+        <mat-form-field class="large-input">
+            <textarea matInput placeholder="Description" [(ngModel)]="task.description" name="description"></textarea>
+        </mat-form-field>
+        <mat-form-field class="medium-input">
+            <input type="number" matInput placeholder="Estimated Time (Minutes)" [(ngModel)]="task.estimatedTime" name="estimatedTime">
+        </mat-form-field>
+        <mat-form-field class="medium-input">
+            <mat-select placeholder="Priority" name="priority" [(ngModel)]="task.priority">
+                <mat-option *ngFor="let priority of taskPriority" [value]="priority">
+                    {{ priority }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div>
+            <button mat-raised-button color="primary" (click)="createTask();">Create</button>
+            <button mat-raised-button color="default" (click)="close();">Cancel</button>
+        </div>
+    </form>
+
+    

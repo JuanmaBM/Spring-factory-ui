@@ -32,6 +32,6 @@ import { Headers, Http, RequestOptions } from '@angular/http';
         this.http.delete(this.buildResourceUrl(idOrder, idTask));
 
     public get = (idSchedule: number, idOrder: number, idTask?: number) => 
-        this.http.get(this.buildResourceUrl(idOrder, idTask)).map(this.getResponseBody)
+        this.http.get(this.buildResourceUrl(idSchedule, idOrder, idTask)).map(this.getResponseBody)
 
 }

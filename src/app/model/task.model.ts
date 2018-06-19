@@ -4,6 +4,7 @@ export class Task {
 
     id: number;
     name: string;
+    description: string;
     estimatedTime: number;
     orderNumber: number;
     startDate: Date;

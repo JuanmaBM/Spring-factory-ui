@@ -16,6 +16,10 @@ import { HttpErrorResponse } from '@angular/common/http';
       this.throw(errors, time);
   }
 
+  public showErrorMessage(errorMessage: string) {
+    if(errorMessage) this.throw(errorMessage);
+  }
+
   private extractErrorsFromResponse(responseError: any) {
 
       if (responseError) {

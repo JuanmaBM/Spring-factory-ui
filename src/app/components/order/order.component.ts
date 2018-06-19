@@ -19,8 +19,13 @@ export class OrderComponent implements OnInit {
 	task: Task = new Task();
 	tasks: Array<Task> = new Array<Task>();
 
+	orderId: number;
+	scheduleId: number;
+
   constructor(private orderService: OrderService, private errorService: ErrorService, private router: Router,
         private route: ActivatedRoute, private taskService: TaskService) {}
+
+	private assignTasks = tasks => this.tasks = tasks;
 
   ngOnInit() {
 
@@ -32,9 +37,19 @@ export class OrderComponent implements OnInit {
 		let getTaskByOrderId = (scheduleId: number, orderId: number) => 
 			this.taskService.get(scheduleId, orderId).subscribe(assignTasks, this.errorService.throwError);
 
+		let assignOrderAndScheduleIds = params => {
+			this.orderId = params.orderId;
+			this.scheduleId = params.scheduleId;
+		};
+
 		let routeParamsObserver = this.route.params;
+		routeParamsObserver.subscribe(assignOrderAndScheduleIds);
 		routeParamsObserver.subscribe(params => getOrderByParamId(params.scheduleId, params.orderId));
 		routeParamsObserver.subscribe(params => getTaskByOrderId(params.scheduleId, params.orderId));
+	}
+
+	receiveChange(task) {
+			this.taskService.get(this.scheduleId, this.orderId).subscribe(this.assignTasks, this.errorService.throwError);
 	}
 
 }

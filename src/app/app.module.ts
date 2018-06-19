@@ -22,6 +22,7 @@ import { GroupService } from "./services/group.service";
 import { ProductionScheduleService } from "./services/production-schedule.service";
 import { TaskService } from "./services/task.service";
 import { ErrorService } from "./services/error.service";
+import { OrderService } from './services/order.service';
 
 import { UrlPermission } from "./urlPermission/url.permission";
 import { routing } from "./app.routing";
@@ -38,10 +39,9 @@ import { MatSnackBarModule,
    MatExpansionModule,
    MatTableModule,
    MatDialog,
-   MatDialogModule
-    } from '@angular/material';
-import { OrderService } from './services/order.service';
-
+   MatDialogModule,
+   MatDividerModule,
+   MatStepperModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -76,7 +76,9 @@ import { OrderService } from './services/order.service';
     MatButtonModule,
     MatExpansionModule,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDividerModule,
+    MatStepperModule
   ],
   providers: [AuthService,
     UrlPermission, 

@@ -1,0 +1,15 @@
+.large-input {
+    width: 100%;
+}
+
+.medium-input {
+    width: 49%;
+}
+
+.task-form {
+    margin-top: 5px;
+}
+
+textarea {
+    height: 200px;
+}
