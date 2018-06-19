@@ -6,6 +6,7 @@ import { Task } from '../../model/task.model';
 import { ErrorService } from '../../services/error.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-order',
@@ -19,13 +20,21 @@ export class OrderComponent implements OnInit {
 	task: Task = new Task();
 	tasks: Array<Task> = new Array<Task>();
 
+	waitingResponse: Boolean = false;
 	orderId: number;
 	scheduleId: number;
 
   constructor(private orderService: OrderService, private errorService: ErrorService, private router: Router,
         private route: ActivatedRoute, private taskService: TaskService) {}
 
-	private assignTasks = tasks => this.tasks = tasks;
+	displayedColumns = ['name', 'creator', 'status', 'priority','estimatedTime', 'actions'];
+	dataSource = new MatTableDataSource();
+
+	private assignTasks = tasks => {
+		this.tasks = tasks;
+		this.dataSource.data = this.tasks;
+		this.waitingResponse = false;
+	};
 
   ngOnInit() {
 
@@ -33,9 +42,8 @@ export class OrderComponent implements OnInit {
 		let getOrderByParamId = (scheduleId: number, orderId: number) =>
 			this.orderService.get(scheduleId, orderId).subscribe(assignOrder);
 
-		let assignTasks = tasks => this.tasks = tasks;
 		let getTaskByOrderId = (scheduleId: number, orderId: number) => 
-			this.taskService.get(scheduleId, orderId).subscribe(assignTasks, this.errorService.throwError);
+			this.taskService.get(scheduleId, orderId).subscribe(this.assignTasks, this.errorService.throwError);
 
 		let assignOrderAndScheduleIds = params => {
 			this.orderId = params.orderId;
@@ -47,9 +55,17 @@ export class OrderComponent implements OnInit {
 		routeParamsObserver.subscribe(params => getOrderByParamId(params.scheduleId, params.orderId));
 		routeParamsObserver.subscribe(params => getTaskByOrderId(params.scheduleId, params.orderId));
 	}
-
-	receiveChange(task) {
-			this.taskService.get(this.scheduleId, this.orderId).subscribe(this.assignTasks, this.errorService.throwError);
+	
+	deleteTask(task) {
+		if(task) this.taskService.delete(this.scheduleId, this.orderId, task.id).subscribe(this.reloadTasks);
 	}
+
+	receiveChange = (task) => this.reloadTasks();
+
+	private reloadTasks = () => {
+		this.waitingResponse = true;
+		this.taskService.get(this.scheduleId, this.orderId)
+			.subscribe(this.assignTasks, this.errorService.throwError)
+	};
 
 }

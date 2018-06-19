@@ -41,7 +41,8 @@ import { MatSnackBarModule,
    MatDialog,
    MatDialogModule,
    MatDividerModule,
-   MatStepperModule } from '@angular/material';
+   MatStepperModule,
+   MatProgressBarModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,7 @@ import { MatSnackBarModule,
     ProductionScheduleDetailsComponent,
     OrderComponent,
     DialogFormTaskComponent,
-    FormTaskComponent
+    FormTaskComponent,
   ],
   entryComponents: [
     FormTaskComponent
@@ -78,6 +79,7 @@ import { MatSnackBarModule,
     MatTableModule,
     MatDialogModule,
     MatDividerModule,
+    MatProgressBarModule,
     MatStepperModule
   ],
   providers: [AuthService,

@@ -26,10 +26,10 @@ import { Headers, Http, RequestOptions } from '@angular/http';
         this.http.post(this.buildResourceUrl(idSchedule, idOrder), body, this.options);
 
     public put = (idSchedule: number, idOrder: number, idTask: number, body: string) => 
-        this.http.put(this.buildResourceUrl(idOrder, idTask), body, this.options);
+        this.http.put(this.buildResourceUrl(idSchedule, idOrder, idTask), body, this.options);
 
     public delete = (idSchedule: number, idOrder: number, idTask: number) =>
-        this.http.delete(this.buildResourceUrl(idOrder, idTask));
+        this.http.delete(this.buildResourceUrl(idSchedule, idOrder, idTask));
 
     public get = (idSchedule: number, idOrder: number, idTask?: number) => 
         this.http.get(this.buildResourceUrl(idSchedule, idOrder, idTask)).map(this.getResponseBody)
