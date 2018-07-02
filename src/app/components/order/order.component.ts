@@ -7,6 +7,7 @@ import { ErrorService } from '../../services/error.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
+import { OperatorFunction } from 'rxjs/interfaces';
 
 @Component({
   selector: 'app-order',
@@ -24,19 +25,36 @@ export class OrderComponent implements OnInit {
 	orderId: number;
 	scheduleId: number;
 
+	priorityStatistics: Array<number> = new Array<number>();
+
   constructor(private orderService: OrderService, private errorService: ErrorService, private router: Router,
         private route: ActivatedRoute, private taskService: TaskService) {}
 
 	displayedColumns = ['name', 'creator', 'status', 'priority','estimatedTime', 'actions'];
 	dataSource = new MatTableDataSource();
 
+	public numberOfTasks: number = 0;
+
+	public priorityChartLabels: Array<string> = new Array<string>('HIGH', 'MEDIUM', 'LOW');
+	public priorityChartType: string = 'pie';
+	public priorityChartData: Array<number> = new Array<number>(0,0,0);
+
 	private assignTasks = tasks => {
+		this.numberOfTasks = tasks.length
 		this.tasks = tasks;
 		this.dataSource.data = this.tasks;
 		this.waitingResponse = false;
+		
+		let a = this.groupByAndCount((task: Task) => task.priority);
+		let dataSet: Array<number> = new Array<number>();
+		for(let key in a) {
+			let index = this.priorityChartLabels.indexOf(key);
+			dataSet[index] = (a[key]);
+		}
+		this.priorityChartData = dataSet;
 	};
 
-  ngOnInit() {
+    ngOnInit() {
 
 		let assignOrder = (order: Order) => this.order = order;
 		let getOrderByParamId = (scheduleId: number, orderId: number) =>
@@ -68,4 +86,9 @@ export class OrderComponent implements OnInit {
 			.subscribe(this.assignTasks, this.errorService.throwError)
 	};
 
+	private groupByAndCount = (groupFunction: (Task) => any) => this.tasks.map(groupFunction)
+	  .reduce((obj, item) => {
+			obj[item] = (obj[item] || 0) + 1;
+			return obj;
+		},{})
 }

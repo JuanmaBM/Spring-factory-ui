@@ -11,6 +11,22 @@
 
 <mat-tab-group>
     <mat-tab label="Statistics">
+        <div *ngIf="numberOfTasks > 0">
+            <div style="display: block">
+                <canvas baseChart
+                        [data]="priorityChartData"
+                        [labels]="priorityChartLabels"
+                        [chartType]="priorityChartType">
+                </canvas>
+            </div>
+        </div>
+        <div *ngIf="numberOfTasks == 0" style="text-align: center">
+<!--             <mat-card style="background-color:red">Not exists any task yet</mat-card> -->
+            <div style="margin-top: 30px; color: #333;">
+                There aren't any tasks information registered
+                <mat-divider style="margin-left: 40%; margin-right: 40%;"></mat-divider>
+            </div>
+        </div>
     </mat-tab>
 
     <mat-tab label="Tasks">
