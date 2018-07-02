@@ -27,6 +27,8 @@ import { OrderService } from './services/order.service';
 import { UrlPermission } from "./urlPermission/url.permission";
 import { routing } from "./app.routing";
 
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule,
    MatFormFieldModule,
@@ -80,7 +82,8 @@ import { MatSnackBarModule,
     MatDialogModule,
     MatDividerModule,
     MatProgressBarModule,
-    MatStepperModule
+    MatStepperModule,
+    ChartsModule
   ],
   providers: [AuthService,
     UrlPermission, 
