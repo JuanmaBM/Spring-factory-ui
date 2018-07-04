@@ -106,6 +106,7 @@
                         <mat-cell *matCellDef="let element">
                             <button (click)="delete(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-trash"></i></button>
                             <button (click)="editForm(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-edit"></i></button>
+                            <button routerLink="/schedule/{{schedule.id}}/order/{{element.id}}" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-log-in"></i></button>
                         </mat-cell>
                     </ng-container>
                 
