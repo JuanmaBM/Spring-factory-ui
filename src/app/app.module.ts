@@ -23,6 +23,8 @@ import { ProductionScheduleService } from "./services/production-schedule.servic
 import { TaskService } from "./services/task.service";
 import { ErrorService } from "./services/error.service";
 import { OrderService } from './services/order.service';
+import { WorkLogService } from './services/worklog.service';
+import { CommentService } from './services/comment.service';
 
 import { UrlPermission } from "./urlPermission/url.permission";
 import { routing } from "./app.routing";
@@ -94,6 +96,8 @@ import { MatSnackBarModule,
     ProductionScheduleService,
     OrderService,
     TaskService,
+    WorkLogService,
+    CommentService,
     MatDialog
   ],
   bootstrap: [AppComponent]
