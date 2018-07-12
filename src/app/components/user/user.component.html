@@ -43,6 +43,12 @@
           </ng-template>
         </data-table-column>
         <data-table-column
+          header="group">
+          <ng-template #dataTableCell let-item="item">
+            <span>{{item.group ? item.group.name : ''}}</span>
+          </ng-template>
+        </data-table-column>
+        <data-table-column
           header="Actions">
           <ng-template #dataTableHeader let-item="item">
             <i>Actions</i>
@@ -113,6 +119,16 @@
                 id="rol" required>
                 <option *ngFor="let rol of roles" 
                   [ngValue]="rol">{{rol.name}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="group">Group</label>
+              <select [(ngModel)]="model.group" #rol="ngModel" name="group" class="form-control" 
+                id="group">
+                <option [ngValue]="undefined"> - </option>
+                <option *ngFor="let group of groups" 
+                  [ngValue]="group">{{group.name}}</option>
               </select>
             </div>
 

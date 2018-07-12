@@ -1,4 +1,5 @@
 import { Role } from "./role.model";
+import { Group } from "./group.model";
 
 export class User {
     id: number;
@@ -9,4 +10,5 @@ export class User {
     phoneNumber: string;
     email: string;
     rol: Role;
+    group: Group;
 }
