@@ -1,0 +1,12 @@
+<div>
+    <h3>Rejected reason</h3>
+    <form #taskForm="ngForm" class="task-form">
+        <mat-form-field class="large-input">
+            <input matInput placeholder="Name" [(ngModel)]="data.reasonRejection" name="name" required>
+        </mat-form-field>
+        <div>
+            <button mat-raised-button color="primary" (click)="rejected();">Create</button>
+            <button mat-raised-button color="default" (click)="close();">Cancel</button>
+        </div>
+    </form>
+</div>

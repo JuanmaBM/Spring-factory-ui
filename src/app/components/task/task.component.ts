@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Inject } from "@angular/core";
 import { ProductionScheduleService } from "../../services/production-schedule.service";
 import { ProductionSchedule } from "../../model/ProductionSchedule.model";
 import { OrderService } from "../../services/order.service";
@@ -8,6 +8,7 @@ import { Task, TaskStatus } from "../../model/task.model";
 import { GroupService } from "../../services/group.service";
 import { Group } from "../../model/group.model";
 import { Observable } from "rxjs/Observable";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 
 const SCHEDULE_QUERY_SORT : Array<string> = ["estimatedStartDate"];
 
@@ -25,7 +26,7 @@ export class TaskComponent implements OnInit {
     groupTasks = {};
 
     constructor(private groupService : GroupService, private orderService : OrderService,
-        private taskService : TaskService) {}
+        private taskService : TaskService, private dialog: MatDialog) {}
 
     ngOnInit() {
 
@@ -78,4 +79,35 @@ export class TaskComponent implements OnInit {
         }
     }
 
+    reOpen(task: Task) {
+        if (task) {
+            task.reasonRejection = undefined;
+            this.moveTo(task, TaskStatus.OPENED);
+        }
+    }
+
+    openRejectedFormDialog(task: Task): void {
+        let dialogRef = this.dialog.open(DialogRejectedTaskForm, {
+            width: '30%',
+            height: '50%',
+            data: task
+        });
+
+        dialogRef.afterClosed().subscribe(task => {
+            if(task) this.moveTo(task, TaskStatus.REJECTED);
+        });
+    }
+
+}
+
+@Component({
+    selector: 'app-dialog-rejected-task-form',
+    templateUrl: 'dialog-rejected-task-form.component.html',
+})
+export class DialogRejectedTaskForm {
+
+    constructor(public dialogRef: MatDialogRef<DialogRejectedTaskForm>, @Inject(MAT_DIALOG_DATA) public data: Task) {}
+
+    rejected = () => this.close(this.data);
+    close = (task: Task = undefined) => this.dialogRef.close(task);
 }

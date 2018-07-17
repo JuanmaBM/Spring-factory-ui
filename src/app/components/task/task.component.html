@@ -25,7 +25,7 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" (click)="moveTo(task, 'IN_PROGRESS');">In progress</a>
                         <a class="dropdown-item" (click)="moveTo(task, 'BLOCKED');">Blocked</a>
-                        <a class="dropdown-item" (click)="moveTo(task, 'REJECTED');">Rejected</a>
+                        <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
                     <button type="button"  class="btn btn-default">Close</button>
                 </div>
@@ -55,7 +55,7 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" (click)="moveTo(task, 'OPENED');">Opened</a>
                         <a class="dropdown-item" (click)="moveTo(task, 'BLOCKED');">Blocked</a>
-                        <a class="dropdown-item" (click)="moveTo(task, 'REJECTED');">Rejected</a>
+                        <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
                     <button type="button"  class="btn btn-default">Close</button>
                 </div>
@@ -84,7 +84,7 @@
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" (click)="moveTo(task, 'OPENED');">Opened</a>
-                        <a class="dropdown-item" (click)="moveTo(task, 'REJECTED');">Rejected</a>
+                        <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
                     <button type="button"  class="btn btn-default">Close</button>
                 </div>
@@ -105,14 +105,14 @@
             </mat-panel-description>
             </mat-expansion-panel-header>
 
-            {{task.description}}
+            {{task.reasonRejection}}
             <mat-action-row>
                 <div class="btn-group">
                     <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Move to
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" (click)="moveTo(task, 'OPENED');">Opened</a>
+                        <a class="dropdown-item" (click)="reOpen(task);">Opened</a>
                     </div>
                     <button type="button"  class="btn btn-default">Close</button>
                 </div>

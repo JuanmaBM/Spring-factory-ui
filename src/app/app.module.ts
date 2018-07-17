@@ -15,6 +15,7 @@ import { OrderComponent } from "./components/order/order.component";
 import { DialogFormTaskComponent } from "./components/task/form/dialog-form-task.component";
 import { FormTaskComponent } from "./components/task/form/dialog-form-task.component";
 import { TaskComponent } from "./components/task/task.component";
+import { DialogRejectedTaskForm } from "./components/task/task.component";
 
 import { AuthService } from "./services/auth.service";
 import { RoleService } from "./services/role.service";
@@ -61,10 +62,12 @@ import { MatSnackBarModule,
     OrderComponent,
     DialogFormTaskComponent,
     FormTaskComponent,
-    TaskComponent
+    TaskComponent,
+    DialogRejectedTaskForm
   ],
   entryComponents: [
-    FormTaskComponent
+    FormTaskComponent,
+    DialogRejectedTaskForm
   ],
   imports: [
     BrowserModule,
