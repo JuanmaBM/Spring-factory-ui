@@ -61,6 +61,7 @@ import { MatSnackBarModule,
     OrderComponent,
     DialogFormTaskComponent,
     FormTaskComponent,
+    TaskComponent
   ],
   entryComponents: [
     FormTaskComponent
