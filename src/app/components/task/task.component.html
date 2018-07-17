@@ -1,0 +1,122 @@
+<h1>TASK</h1>
+
+<h1 *ngIf="tasks.length == 0">There are not tasks</h1>
+<h1 *ngIf="tasks.length > 0">There are tasks</h1>
+
+<div>
+    <h3>Open</h3>
+    <mat-accordion class="example-headers-align">
+        <mat-expansion-panel *ngFor="let task of groupTasks['OPENED']">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{task.priority}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{task.name}}
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            {{task.description}}
+            <mat-action-row>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Move to
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" (click)="moveTo(task, 'IN_PROGRESS');">In progress</a>
+                        <a class="dropdown-item" (click)="moveTo(task, 'BLOCKED');">Blocked</a>
+                        <a class="dropdown-item" (click)="moveTo(task, 'REJECTED');">Rejected</a>
+                    </div>
+                    <button type="button"  class="btn btn-default">Close</button>
+                </div>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
+<div>
+    <h3>In progress</h3>
+    <mat-accordion class="example-headers-align">
+        <mat-expansion-panel *ngFor="let task of groupTasks['IN_PROGRESS']">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{task.priority}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{task.name}}
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            {{task.description}}
+            <mat-action-row>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Move to
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" (click)="moveTo(task, 'OPENED');">Opened</a>
+                        <a class="dropdown-item" (click)="moveTo(task, 'BLOCKED');">Blocked</a>
+                        <a class="dropdown-item" (click)="moveTo(task, 'REJECTED');">Rejected</a>
+                    </div>
+                    <button type="button"  class="btn btn-default">Close</button>
+                </div>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
+<div>
+    <h3>Blocked</h3>
+    <mat-accordion class="example-headers-align">
+        <mat-expansion-panel *ngFor="let task of groupTasks['BLOCKED']">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{task.priority}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{task.name}}
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            {{task.description}}
+            <mat-action-row>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Move to
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" (click)="moveTo(task, 'OPENED');">Opened</a>
+                        <a class="dropdown-item" (click)="moveTo(task, 'REJECTED');">Rejected</a>
+                    </div>
+                    <button type="button"  class="btn btn-default">Close</button>
+                </div>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
+<div>
+    <h3>Rejected</h3>
+    <mat-accordion class="example-headers-align">
+        <mat-expansion-panel *ngFor="let task of groupTasks['REJECTED']">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{task.priority}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{task.name}}
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            {{task.description}}
+            <mat-action-row>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Move to
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" (click)="moveTo(task, 'OPENED');">Opened</a>
+                    </div>
+                    <button type="button"  class="btn btn-default">Close</button>
+                </div>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
