@@ -82,19 +82,23 @@ export class TaskComponent implements OnInit {
     reOpen(task: Task) {
         if (task) {
             task.reasonRejection = undefined;
+            task.blockedReason = undefined;
             this.moveTo(task, TaskStatus.OPENED);
         }
     }
 
-    openRejectedFormDialog(task: Task): void {
+    openRejectedFormDialog = (task: Task): void => this.openFormDialog(task, TaskStatus.REJECTED);
+    openBlockedFormDialog = (task: Task): void => this.openFormDialog(task, TaskStatus.BLOCKED);
+
+    private openFormDialog(task: Task, action: TaskStatus) {
         let dialogRef = this.dialog.open(DialogRejectedTaskForm, {
             width: '30%',
             height: '50%',
-            data: task
+            data: { task: task, action: action }
         });
 
         dialogRef.afterClosed().subscribe(task => {
-            if(task) this.moveTo(task, TaskStatus.REJECTED);
+            if(task) this.moveTo(task, action);
         });
     }
 
@@ -107,10 +111,13 @@ export class TaskComponent implements OnInit {
 })
 export class DialogRejectedTaskForm {
 
-    constructor(public dialogRef: MatDialogRef<DialogRejectedTaskForm>, @Inject(MAT_DIALOG_DATA) public data: Task) {}
+    constructor(public dialogRef: MatDialogRef<DialogRejectedTaskForm>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
-    rejected = () => {
-        if(this.data.reasonRejection) this.close(this.data);
+    actionVariable: string = this.data.action === TaskStatus.REJECTED ? 'reasonRejection' : 
+        this.data.action === TaskStatus.BLOCKED ? 'blockedReason' : ''
+
+    doAction = () => {
+        if(this.data.task[this.actionVariable]) this.close(this.data.task);
     }
 
     close = (task: Task = undefined) => this.dialogRef.close(task);

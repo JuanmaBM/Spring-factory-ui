@@ -1,8 +1,5 @@
 <h1>TASK</h1>
 
-<h1 *ngIf="tasks.length == 0">There are not tasks</h1>
-<h1 *ngIf="tasks.length > 0">There are tasks</h1>
-
 <mat-card class="example-card">
     <mat-card-header>
         <mat-card-title><h3>Open</h3></mat-card-title>
@@ -26,7 +23,7 @@
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" (click)="moveTo(task, 'IN_PROGRESS');">In progress</a>
-                        <a class="dropdown-item" (click)="moveTo(task, 'BLOCKED');">Blocked</a>
+                        <a class="dropdown-item" (click)="openBlockedFormDialog(task);">Blocked</a>
                         <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
                     <button type="button"  class="btn btn-default">Close</button>
@@ -58,7 +55,7 @@
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" (click)="moveTo(task, 'FINISHED');">Done</a>
-                        <a class="dropdown-item" (click)="moveTo(task, 'BLOCKED');">Blocked</a>
+                        <a class="dropdown-item" (click)="openBlockedFormDialog(task);">Blocked</a>
                         <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
                     <button type="button"  class="btn btn-default">Close</button>
@@ -82,14 +79,14 @@
             </mat-panel-description>
             </mat-expansion-panel-header>
 
-            {{task.description}}
+            {{task.blockedReason}}
             <mat-action-row>
                 <div class="btn-group">
                     <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Move to
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" (click)="moveTo(task, 'OPENED');">Open</a>
+                        <a class="dropdown-item" (click)="reOpen(task);">Open</a>
                         <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
                     <button type="button"  class="btn btn-default">Close</button>
