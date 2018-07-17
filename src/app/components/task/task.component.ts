@@ -103,11 +103,15 @@ export class TaskComponent implements OnInit {
 @Component({
     selector: 'app-dialog-rejected-task-form',
     templateUrl: 'dialog-rejected-task-form.component.html',
+    styleUrls: ['./form/form-task.component.css'],
 })
 export class DialogRejectedTaskForm {
 
     constructor(public dialogRef: MatDialogRef<DialogRejectedTaskForm>, @Inject(MAT_DIALOG_DATA) public data: Task) {}
 
-    rejected = () => this.close(this.data);
+    rejected = () => {
+        if(this.data.reasonRejection) this.close(this.data);
+    }
+
     close = (task: Task = undefined) => this.dialogRef.close(task);
 }
