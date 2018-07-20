@@ -16,6 +16,7 @@ import { DialogFormTaskComponent } from "./components/task/form/dialog-form-task
 import { FormTaskComponent } from "./components/task/form/dialog-form-task.component";
 import { TaskComponent } from "./components/task/task.component";
 import { DialogRejectedTaskForm } from "./components/task/task.component";
+import { DialogGroupAssignedForm } from "./components/production-schedule/details/production-schedule-details.component";
 
 import { AuthService } from "./services/auth.service";
 import { RoleService } from "./services/role.service";
@@ -48,7 +49,8 @@ import { MatSnackBarModule,
    MatDialogModule,
    MatDividerModule,
    MatStepperModule,
-   MatProgressBarModule } from '@angular/material';
+   MatProgressBarModule,
+   MatCheckboxModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -63,11 +65,13 @@ import { MatSnackBarModule,
     DialogFormTaskComponent,
     FormTaskComponent,
     TaskComponent,
-    DialogRejectedTaskForm
+    DialogRejectedTaskForm,
+    DialogGroupAssignedForm
   ],
   entryComponents: [
     FormTaskComponent,
-    DialogRejectedTaskForm
+    DialogRejectedTaskForm,
+    DialogGroupAssignedForm
   ],
   imports: [
     BrowserModule,
@@ -90,7 +94,8 @@ import { MatSnackBarModule,
     MatDividerModule,
     MatProgressBarModule,
     MatStepperModule,
-    ChartsModule
+    ChartsModule,
+    MatCheckboxModule
   ],
   providers: [AuthService,
     UrlPermission, 

@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, Inject } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 
 import { switchMap } from 'rxjs/operators';
 import { ProductionSchedule } from "../../../model/ProductionSchedule.model";
@@ -8,6 +9,9 @@ import { ProductionScheduleService } from "../../../services/production-schedule
 import { MEASUREMENTS, Order } from "../../../model/order.model";
 import { OrderService } from "../../../services/order.service";
 import { ErrorService } from "../../../services/error.service";
+import { GroupService } from "../../../services/group.service";
+import { Group } from "../../../model/group.model";
+import { CheckboxObject } from "../../../model/checkbox-object.model";
 
 @Component({
   selector: 'app-schedule-details',
@@ -21,7 +25,8 @@ export class ProductionScheduleDetailsComponent implements OnInit {
         private route: ActivatedRoute, 
         private scheduleService: ProductionScheduleService,
         private orderService: OrderService,
-        private errorService: ErrorService) { }
+        private errorService: ErrorService,
+        private dialog: MatDialog) { }
 
     editAction: Boolean = false;
     order: Order = new Order();
@@ -98,5 +103,55 @@ export class ProductionScheduleDetailsComponent implements OnInit {
                 this.dataSource.data = (this.orders);
             }
         }
+    }
+
+    openAssignDialog(order: Order) {
+        let dialogRef = this.dialog.open(DialogGroupAssignedForm, {
+            width: '30%',
+            height: '50%',
+            data: { order: order }
+        });
+
+        dialogRef.afterClosed().subscribe(groupAssigned => {
+            if(groupAssigned) {
+                order.groupsAssigned = groupAssigned;
+                this.orderService.put(this.schedule.id, order.id, JSON.stringify(order)).subscribe(x => console.log(x));
+            }
+        });
+    }
+}
+
+@Component({
+    selector: 'app-dialog-group-assigned-form',
+    templateUrl: 'dialog-group-assigned-form.component.html'
+})
+export class DialogGroupAssignedForm implements OnInit {
+
+    constructor(public dialogRef: MatDialogRef<DialogGroupAssignedForm>, @Inject(MAT_DIALOG_DATA) public data: any,
+        public groupService: GroupService) {}
+
+    groups: Array<CheckboxObject> = new Array<CheckboxObject>();
+    assignedGroups: Array<Group> = new Array<Group>();
+
+    ngOnInit() {
+        let queryParam: Map<string, string> = new Map();
+        queryParam.set('orderId', this.data.order.id);
+
+        this.groupService.get(undefined, queryParam).subscribe(assignedGroups => {
+            this.assignedGroups = assignedGroups
+            this.groupService.get().subscribe(groups => {
+                groups.forEach(group => {
+                    let selected = this.assignedGroups.findIndex(g => g.id == group.id) >= 0;
+                    this.groups.push(new CheckboxObject(selected, group));
+                })
+            });
+        });
+    }
+
+    closeDialog = (groupAssigned?) => this.dialogRef.close(groupAssigned);
+
+    updateGroupsSelected() {
+        let groupsAssigned = this.groups.filter(checkbox => checkbox.selected).map(checkbox => checkbox.object);
+        this.closeDialog(groupsAssigned);
     }
 }

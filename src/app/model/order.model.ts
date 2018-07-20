@@ -1,8 +1,11 @@
+import { Group } from "./group.model";
+
 export class Order {
     id: number;
     name: string;
     description: string;
     measurements: string;
+    groupsAssigned: Array<Group>;
 
     public constructor(order?: Order) {
         if (order !== undefined) {
@@ -10,6 +13,7 @@ export class Order {
             this.name = order.name;
             this.description = order.description;
             this.measurements = order.measurements;
+            this.groupsAssigned = order.groupsAssigned;
         }
     }
 }
