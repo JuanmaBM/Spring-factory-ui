@@ -6,12 +6,13 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { switchMap } from 'rxjs/operators';
 import { ProductionSchedule } from "../../../model/ProductionSchedule.model";
 import { ProductionScheduleService } from "../../../services/production-schedule.service";
-import { MEASUREMENTS, Order } from "../../../model/order.model";
+import { MEASUREMENTS, Order, OrderStatusEnum } from "../../../model/order.model";
 import { OrderService } from "../../../services/order.service";
 import { ErrorService } from "../../../services/error.service";
 import { GroupService } from "../../../services/group.service";
 import { Group } from "../../../model/group.model";
 import { CheckboxObject } from "../../../model/checkbox-object.model";
+import { TaskStatus } from "../../../model/task.model";
 
 @Component({
   selector: 'app-schedule-details',
@@ -34,7 +35,7 @@ export class ProductionScheduleDetailsComponent implements OnInit {
     schedule: ProductionSchedule = new ProductionSchedule();
     measurements = MEASUREMENTS;
 
-    displayedColumns = ['id', 'name', 'description', 'measurements', 'actions'];
+    displayedColumns = ['id', 'name', 'description', 'measurements', 'status', 'actions'];
     dataSource = new MatTableDataSource();
 
     ngOnInit() {
@@ -103,6 +104,16 @@ export class ProductionScheduleDetailsComponent implements OnInit {
                 this.dataSource.data = (this.orders);
             }
         }
+    }
+
+    startOrder = (order: Order) => this.updateStatusOrder(order, OrderStatusEnum.IN_PROGRESS);
+
+    closeOrder = (order: Order) => this.updateStatusOrder(order, OrderStatusEnum.CLOSE);
+
+    private updateStatusOrder(order: Order, status: OrderStatusEnum) {
+        let copyOrder = new Order(order);
+        copyOrder.status = status;
+        this.orderService.put(this.schedule.id, order.id, JSON.stringify(copyOrder)).subscribe(_ => order.status = status);
     }
 
     openAssignDialog(order: Order) {
