@@ -8,12 +8,11 @@ import { DataTableModule } from './components/data-table';
 import { LoginComponent } from './components/login/login.component';
 import { RoleComponent } from "./components/role/role.component";
 import { UserComponent } from "./components/user/user.component";
-import { GroupComponent } from "./components/group/group.component";
+import { GroupComponent, TaskGroupList } from "./components/group/group.component";
 import { ProductionScheduleComponent } from "./components/production-schedule/production-schedule.component";
 import { ProductionScheduleDetailsComponent } from './components/production-schedule/details/production-schedule-details.component';
 import { OrderComponent } from "./components/order/order.component";
 import { DialogFormTaskComponent } from "./components/task/form/dialog-form-task.component";
-import { FormTaskComponent } from "./components/task/form/dialog-form-task.component";
 import { TaskComponent } from "./components/task/task.component";
 import { DialogRejectedTaskForm } from "./components/task/task.component";
 import { DialogGroupAssignedForm } from "./components/production-schedule/details/production-schedule-details.component";
@@ -51,6 +50,7 @@ import { MatSnackBarModule,
    MatStepperModule,
    MatProgressBarModule,
    MatCheckboxModule } from '@angular/material';
+import { FormTaskComponent } from './components/task/form/form-task.component';
 
 @NgModule({
   declarations: [
@@ -66,12 +66,14 @@ import { MatSnackBarModule,
     FormTaskComponent,
     TaskComponent,
     DialogRejectedTaskForm,
-    DialogGroupAssignedForm
+    DialogGroupAssignedForm, 
+    TaskGroupList
   ],
   entryComponents: [
     FormTaskComponent,
     DialogRejectedTaskForm,
-    DialogGroupAssignedForm
+    DialogGroupAssignedForm,
+    TaskGroupList
   ],
   imports: [
     BrowserModule,

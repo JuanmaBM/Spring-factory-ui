@@ -1,4 +1,4 @@
-import {AppComponent} from "../app.component";
+import { AppComponent } from "../app.component";
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
@@ -9,7 +9,8 @@ import 'rxjs/add/operator/map';
 @Injectable() export abstract class GenericService {
 
     private headers = new Headers({'Content-type': 'application/json;charset=UTF-8'});
-    private options = new RequestOptions({ headers: this.headers });
+    protected options = new RequestOptions({ headers: this.headers });
+    protected API_URL = AppComponent.API_URL; 
 
     constructor(public http: Http) { }
         
@@ -52,7 +53,7 @@ import 'rxjs/add/operator/map';
         return urlWithSort.slice(0, -1);
     }
 
-    private getResponseBody = (response: any) => response.json();
+    protected getResponseBody = (response: any) => response.json();
 
     public post = (body: string) => 
         this.http.post(this.buildResourceUrl(undefined), body, this.options);
