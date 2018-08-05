@@ -1,4 +1,86 @@
-<h1>TASK</h1>
+<div *ngIf="specifyTasks.length > 0">
+<h1>GROUP TASK</h1>
+
+<mat-card class="example-card">
+    <mat-card-header>
+        <mat-card-title><h3>Open</h3></mat-card-title>
+    </mat-card-header>
+    <mat-accordion class="example-headers-align">
+        <mat-expansion-panel *ngFor="let task of specifyGroupTasks['OPENED']">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{task.priority}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{task.name}}
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            {{task.description}}
+            <mat-action-row>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success" (click)="moveTo(task, 'IN_PROGRESS', specifyGroupTasks);">
+                        Start</button>
+                    <button type="button"  class="btn btn-default">Close</button>
+                </div>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-card>
+<mat-card class="example-card">
+    <mat-card-header>
+        <mat-card-title><h3>In progress</h3></mat-card-title>
+    </mat-card-header>
+    <mat-accordion class="example-headers-align">
+        <mat-expansion-panel *ngFor="let task of specifyGroupTasks['IN_PROGRESS']">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{task.priority}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{task.name}}
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            {{task.description}}
+            <mat-action-row>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success" (click)="moveTo(task, 'FINISHED', specifyGroupTasks);">
+                        Finish</button>
+                    <button type="button"  class="btn btn-default">Close</button>
+                </div>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-card>
+<mat-card class="example-card">
+    <mat-card-header>
+        <mat-card-title><h3>Done</h3></mat-card-title>
+    </mat-card-header>
+    <mat-accordion class="example-headers-align">
+        <mat-expansion-panel *ngFor="let task of specifyGroupTasks['FINISHED']">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{task.priority}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{task.name}}
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            {{task.description}}
+            <mat-action-row>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success" (click)="reOpen(task, specifyGroupTasks);">Reopen</button>
+                    <button type="button" class="btn btn-default">Close</button>
+                </div>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-card>
+</div>
+
+<h1>PRODUCTION ORDER TASK</h1>
 
 <mat-card class="example-card">
     <mat-card-header>
@@ -22,7 +104,7 @@
                         Move to
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" (click)="moveTo(task, 'IN_PROGRESS');">In progress</a>
+                        <a class="dropdown-item" (click)="moveTo(task, 'IN_PROGRESS', groupTasks);">In progress</a>
                         <a class="dropdown-item" (click)="openBlockedFormDialog(task);">Blocked</a>
                         <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
@@ -54,7 +136,7 @@
                         Move to
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" (click)="moveTo(task, 'FINISHED');">Done</a>
+                        <a class="dropdown-item" (click)="moveTo(task, 'FINISHED', groupTasks);">Done</a>
                         <a class="dropdown-item" (click)="openBlockedFormDialog(task);">Blocked</a>
                         <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
@@ -86,7 +168,7 @@
                         Move to
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" (click)="reOpen(task);">Open</a>
+                        <a class="dropdown-item" (click)="reOpen(task, groupTasks);">Open</a>
                         <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
                     <button type="button"  class="btn btn-default">Close</button>
@@ -117,7 +199,7 @@
                         Move to
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" (click)="reOpen(task);">Opened</a>
+                        <a class="dropdown-item" (click)="reOpen(task, groupTasks);">Opened</a>
                     </div>
                     <button type="button"  class="btn btn-default">Close</button>
                 </div>
@@ -147,7 +229,7 @@
                         Move to
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" (click)="reOpen(task);">Opened</a>
+                        <a class="dropdown-item" (click)="reOpen(task, groupTasks);">Opened</a>
                     </div>
                     <button type="button"  class="btn btn-default">Close</button>
                 </div>

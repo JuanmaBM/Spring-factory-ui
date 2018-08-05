@@ -23,7 +23,9 @@ export class TaskComponent implements OnInit {
     currentOrder : Order;
     numberOfTask : Number = 0;
     tasks : Array<Task> = new Array<Task>();
+    specifyTasks : Array<Task> = new Array<Task>();
     groupTasks = {};
+    specifyGroupTasks = {};
 
     constructor(private groupService : GroupService, private orderService : OrderService,
         private taskService : TaskService, private dialog: MatDialog) {}
@@ -48,6 +50,13 @@ export class TaskComponent implements OnInit {
         orderByGroupObserver.subscribe(getTaskByOrder);
         orderByGroupObserver.subscribe(orders => this.currentOrder = orders[0]);
         this.groupService.get(groupId).subscribe(group => this.userGroup = group);
+        this.groupService.getTask(groupId).subscribe(tasks => {
+            this.specifyTasks = tasks;
+            this.specifyGroupTasks = tasks.reduce((obj, item) => {
+                (obj[item['status']] = obj[item['status']] || []).push(item);
+                return obj;
+            }, {});
+        });
     }
 
     private getOrderByGroupId(groupId : number) : Observable<Array<Order>> {
@@ -59,18 +68,18 @@ export class TaskComponent implements OnInit {
         return this.orderService.get(0, undefined, queryParam);
     }
 
-    moveTo(task: Task, status: TaskStatus) {
+    moveTo(task: Task, status: TaskStatus, taskList) {
 
         let oldStatus = task.status;
         task.status = status;
 
         let moveTaskToGroup = (task: Task, newStatus: TaskStatus, oldStatus: TaskStatus) => {
-            let taskIndex = this.groupTasks[oldStatus].indexOf(task);
-            this.groupTasks[oldStatus].splice(taskIndex, 1);
-            if (this.groupTasks[newStatus] === undefined) {
-                this.groupTasks[newStatus] = [];
+            let taskIndex = taskList[oldStatus].indexOf(task);
+            taskList[oldStatus].splice(taskIndex, 1);
+            if (taskList[newStatus] === undefined) {
+                taskList[newStatus] = [];
             }
-            this.groupTasks[newStatus].push(task)
+            taskList[newStatus].push(task)
         }
 
         if (status) {
@@ -79,11 +88,11 @@ export class TaskComponent implements OnInit {
         }
     }
 
-    reOpen(task: Task) {
+    reOpen(task: Task, taskList) {
         if (task) {
             task.reasonRejection = undefined;
             task.blockedReason = undefined;
-            this.moveTo(task, TaskStatus.OPENED);
+            this.moveTo(task, TaskStatus.OPENED, taskList);
         }
     }
 
@@ -98,7 +107,7 @@ export class TaskComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(task => {
-            if(task) this.moveTo(task, action);
+            if(task) this.moveTo(task, action, this.groupTasks);
         });
     }
 
