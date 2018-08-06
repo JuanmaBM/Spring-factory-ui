@@ -51,6 +51,7 @@ import { MatSnackBarModule,
    MatProgressBarModule,
    MatCheckboxModule } from '@angular/material';
 import { FormTaskComponent } from './components/task/form/form-task.component';
+import { TaskDetailsComponent } from './components/task/details/task-details.component';
 
 @NgModule({
   declarations: [
@@ -67,12 +68,14 @@ import { FormTaskComponent } from './components/task/form/form-task.component';
     TaskComponent,
     DialogRejectedTaskForm,
     DialogGroupAssignedForm, 
-    TaskGroupList
+    TaskGroupList,
+    TaskDetailsComponent,
   ],
   entryComponents: [
     FormTaskComponent,
     DialogRejectedTaskForm,
     DialogGroupAssignedForm,
+    TaskDetailsComponent,
     TaskGroupList
   ],
   imports: [
