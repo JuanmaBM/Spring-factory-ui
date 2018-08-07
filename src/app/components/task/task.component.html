@@ -21,7 +21,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-success" (click)="moveTo(task, 'IN_PROGRESS', specifyGroupTasks);">
                         Start</button>
-                    <button type="button"  class="btn btn-default">Close</button>
+                    <button type="button"  class="btn btn-default" (click)="openDetails(task);">Details</button>
                 </div>
             </mat-action-row>
         </mat-expansion-panel>
@@ -47,7 +47,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-success" (click)="moveTo(task, 'FINISHED', specifyGroupTasks);">
                         Finish</button>
-                    <button type="button"  class="btn btn-default">Close</button>
+                    <button type="button"  class="btn btn-default" (click)="openDetails(task);">Details</button>
                 </div>
             </mat-action-row>
         </mat-expansion-panel>
@@ -72,7 +72,7 @@
             <mat-action-row>
                 <div class="btn-group">
                     <button type="button" class="btn btn-success" (click)="reOpen(task, specifyGroupTasks);">Reopen</button>
-                    <button type="button" class="btn btn-default">Close</button>
+                    <button type="button"  class="btn btn-default" (click)="openDetails(task);">Details</button>
                 </div>
             </mat-action-row>
         </mat-expansion-panel>
@@ -108,7 +108,7 @@
                         <a class="dropdown-item" (click)="openBlockedFormDialog(task);">Blocked</a>
                         <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
-                    <button type="button"  class="btn btn-default">Close</button>
+                    <button type="button"  class="btn btn-default" (click)="openDetails(task);">Details</button>
                 </div>
             </mat-action-row>
         </mat-expansion-panel>
@@ -140,7 +140,7 @@
                         <a class="dropdown-item" (click)="openBlockedFormDialog(task);">Blocked</a>
                         <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
-                    <button type="button"  class="btn btn-default">Close</button>
+                    <button type="button"  class="btn btn-default" (click)="openDetails(task);">Details</button>
                 </div>
             </mat-action-row>
         </mat-expansion-panel>
@@ -171,7 +171,7 @@
                         <a class="dropdown-item" (click)="reOpen(task, groupTasks);">Open</a>
                         <a class="dropdown-item" (click)="openRejectedFormDialog(task);">Rejected</a>
                     </div>
-                    <button type="button"  class="btn btn-default">Close</button>
+                    <button type="button"  class="btn btn-default" (click)="openDetails(task);">Details</button>
                 </div>
             </mat-action-row>
         </mat-expansion-panel>
@@ -201,7 +201,7 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" (click)="reOpen(task, groupTasks);">Opened</a>
                     </div>
-                    <button type="button"  class="btn btn-default">Close</button>
+                    <button type="button"  class="btn btn-default" (click)="openDetails(task);">Details</button>
                 </div>
             </mat-action-row>
         </mat-expansion-panel>
@@ -231,7 +231,7 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" (click)="reOpen(task, groupTasks);">Opened</a>
                     </div>
-                    <button type="button"  class="btn btn-default">Close</button>
+                    <button type="button"  class="btn btn-default" (click)="openDetails(task);">Details</button>
                 </div>
             </mat-action-row>
         </mat-expansion-panel>

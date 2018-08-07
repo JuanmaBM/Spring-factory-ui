@@ -9,6 +9,7 @@ import { GroupService } from "../../services/group.service";
 import { Group } from "../../model/group.model";
 import { Observable } from "rxjs/Observable";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { TaskDetailsComponent } from "./details/task-details.component";
 
 const SCHEDULE_QUERY_SORT : Array<string> = ["estimatedStartDate"];
 
@@ -108,6 +109,14 @@ export class TaskComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(task => {
             if(task) this.moveTo(task, action, this.groupTasks);
+        });
+    }
+
+    openDetails(task: Task) {
+        this.dialog.open(TaskDetailsComponent, {
+            width: '60%',
+            height: '80%',
+            data: { task: task, order: this.currentOrder }
         });
     }
 

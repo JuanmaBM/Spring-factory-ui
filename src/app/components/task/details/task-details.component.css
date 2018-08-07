@@ -1,0 +1,26 @@
+.content {
+    height: 90%;
+}
+
+.scroll-container {
+    height: 75%;
+    overflow: auto;
+}
+
+.small-input {
+    width: 10%;
+}
+
+.large-input {
+    width: 85%;
+}
+
+.task-form {
+    margin-top: 5px;
+}
+
+mat-list {
+    flex-grow: 1;
+    height: 465px;
+    overflow: auto;
+}

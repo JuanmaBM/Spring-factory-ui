@@ -49,7 +49,9 @@ import { MatSnackBarModule,
    MatDividerModule,
    MatStepperModule,
    MatProgressBarModule,
-   MatCheckboxModule } from '@angular/material';
+   MatCheckboxModule, 
+   MatIconModule,
+   MatListModule} from '@angular/material';
 import { FormTaskComponent } from './components/task/form/form-task.component';
 import { TaskDetailsComponent } from './components/task/details/task-details.component';
 
@@ -88,8 +90,10 @@ import { TaskDetailsComponent } from './components/task/details/task-details.com
     BrowserAnimationsModule,
     MatTabsModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
     MatGridListModule,
+    MatListModule,
     MatCardModule,
     MatSelectModule,
     MatButtonModule,

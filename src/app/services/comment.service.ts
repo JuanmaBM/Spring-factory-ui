@@ -11,7 +11,7 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 
     private buildResourceUrl(idSchedule: number, idOrder: number, idTask: number, idComment?: number) {
 
-        let url = AppComponent.API_URL + "/schedule/" + idSchedule + "/order/" + idOrder + "/task" + idTask + "/worklog";
+        let url = AppComponent.API_URL + "/schedule/" + idSchedule + "/order/" + idOrder + "/task/" + idTask + "/comment";
 
         if(idComment) {
             url += "/" + idComment
