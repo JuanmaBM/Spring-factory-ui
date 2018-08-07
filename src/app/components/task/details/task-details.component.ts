@@ -6,6 +6,8 @@ import { CommentService } from "../../../services/comment.service";
 import { WorkLogService } from "../../../services/worklog.service";
 import { ErrorService } from "../../../services/error.service";
 import { WorkLog } from "../../../model/worklog.model";
+import { Comment } from "../../../model/comment.model";
+import { User } from "../../../model/user.model";
 
 @Component({
     selector: 'app-task-details',
@@ -21,6 +23,7 @@ export class TaskDetailsComponent implements OnInit {
     worklogs: Array<WorkLog> = new Array<WorkLog>();
 
     worklog: WorkLog = new WorkLog();
+    comment: Comment = new Comment();
 
     constructor(private taskService : TaskService, private commentService: CommentService,
         private worklogService: WorkLogService, private errorService: ErrorService,
@@ -39,24 +42,47 @@ export class TaskDetailsComponent implements OnInit {
     loadWorkLogs = () => 
         this.worklogService.get(0, this.orderId, this.taskId).subscribe(worklogs => this.worklogs = worklogs);
 
-    loadComments = () =>
-        this.commentService.get(0, this.orderId, this.taskId).subscribe(comments => this.comments = comments);
-
     resetWorklog = () => this.worklog = new WorkLog();
 
     deleteWorklog = (worklogId: number) => this.worklogService.delete(0, this.orderId, this.taskId, worklogId)
         .subscribe(this.loadWorkLogs)
 
     createWorklog() {
-        if(this.validateWorkLog()) {
-            this.worklogService.post(0, this.orderId, this.taskId, JSON.stringify(this.worklog))
-                .subscribe(this.loadWorkLogs).add(this.resetWorklog);
-        } else {
-            this.errorService.showErrorMessage("Must fills Time worked and description fields");
-        }
+
+        this.validateForm(this.validateWorkLog, "Must fills Time worked and description fields");
+
+        this.worklogService.post(0, this.orderId, this.taskId, JSON.stringify(this.worklog))
+            .subscribe(this.loadWorkLogs).add(this.resetWorklog);
     }
 
     private validateWorkLog = () => !!this.worklog && !!this.worklog.description && !!this.worklog.hoursWorked;
 
+    loadComments = () =>
+        this.commentService.get(0, this.orderId, this.taskId).subscribe(comments => this.comments = comments);
+
+    deleteComment = (commentId: number) => this.commentService.delete(0, this.orderId, this.taskId, commentId)
+        .subscribe(this.loadComments);
+
+    resetComment = () => this.comment = new Comment();
+
+    private validateComment = () => !!this.comment && !!this.comment.text;
+
+
+    createComment() {
+
+        this.validateForm(this.validateComment, "Must fills comment field");
+
+        this.comment.author = new User("99999999R");
+        this.comment.creationDate = new Date();
+        this.commentService.post(0, this.orderId, this.taskId, JSON.stringify(this.comment))
+            .subscribe(this.loadComments).add(this.resetComment);
+    }
+
+    private validateForm(functionToValidate, errorMessage) {
+        let isValidaForm: Boolean = functionToValidate(); 
+        if (!isValidaForm) {
+            this.errorService.showErrorMessage(errorMessage);
+        }
+    }
 
 }

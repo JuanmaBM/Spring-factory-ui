@@ -11,4 +11,8 @@ export class User {
     email: string;
     rol: Role;
     group: Group;
+
+    constructor(nif?: string) {
+        this.nif = nif;
+    }
 }
