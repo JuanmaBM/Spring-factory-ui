@@ -29,6 +29,6 @@
 
 mat-list {
     flex-grow: 1;
-    height: 465px;
+    height: 450px;
     overflow: auto;
 }

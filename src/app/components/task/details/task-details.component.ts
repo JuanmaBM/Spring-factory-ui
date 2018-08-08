@@ -25,6 +25,10 @@ export class TaskDetailsComponent implements OnInit {
     worklog: WorkLog = new WorkLog();
     comment: Comment = new Comment();
 
+    totalTimeWorked: number = 0;
+    timeUsed: number = 0;
+    colorProgressBar: string = this.timeUsed > 100 ? 'primary' : 'warn';
+
     constructor(private taskService : TaskService, private commentService: CommentService,
         private worklogService: WorkLogService, private errorService: ErrorService,
         private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {}
@@ -34,13 +38,16 @@ export class TaskDetailsComponent implements OnInit {
         this.taskId = this.data.task.id;
         this.orderId = this.data.order.id;
 
-        this.taskService.get(0, this.orderId, this.taskId).subscribe(task => this.task = task);
-        this.loadComments();
-        this.loadWorkLogs();
+        this.taskService.get(0, this.orderId, this.taskId).subscribe(task => this.task = task)
+            .add(this.loadWorkLogs).add(this.loadComments);
     }
 
     loadWorkLogs = () => 
-        this.worklogService.get(0, this.orderId, this.taskId).subscribe(worklogs => this.worklogs = worklogs);
+        this.worklogService.get(0, this.orderId, this.taskId).subscribe(worklogs => this.worklogs = worklogs)
+            .add(() => {
+                this.totalTimeWorked = this.worklogs.map(worklog => worklog.hoursWorked).reduce((a, b) => a + b);
+                this.timeUsed = (this.totalTimeWorked/this.task.estimatedTime) * 100;
+            });
 
     resetWorklog = () => this.worklog = new WorkLog();
 

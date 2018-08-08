@@ -84,8 +84,21 @@ export class TaskComponent implements OnInit {
         }
 
         if (status) {
+
+            this.updateDatesIfChangeToInProgressOrFinished(task);
+
             this.taskService.put(0, this.currentOrder.id, task.id, JSON.stringify(task))
                 .subscribe(x => moveTaskToGroup(task, task.status, oldStatus));
+        }
+    }
+
+    private updateDatesIfChangeToInProgressOrFinished(task: Task) {
+
+        if (TaskStatus.IN_PROGRESS == task.status && task.startDate == undefined) {
+            task.startDate = new Date();
+        }
+        else if (TaskStatus.FINISHED == task.status) {
+            task.finishDate = new Date();
         }
     }
 
@@ -93,6 +106,7 @@ export class TaskComponent implements OnInit {
         if (task) {
             task.reasonRejection = undefined;
             task.blockedReason = undefined;
+            task.finishDate = undefined;
             this.moveTo(task, TaskStatus.OPENED, taskList);
         }
     }

@@ -6,10 +6,73 @@
     <mat-card-content>
         <mat-tab-group>
             <mat-tab label="Details">
-                {{task.name}}
+                <h3 style="text-align: center">Time Used: {{timeUsed | number:'1.2-2'}}%</h3>
+                <mat-progress-bar mode="determinate" value="{{this.timeUsed}}"
+                    color="{{timeUsed < 101 ? 'primary' : 'warn'}}"></mat-progress-bar>
+
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Name" value="{{task.name}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Priority" value="{{task.priority}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Status" value="{{task.status}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Estimated Time (Minutes)" value="{{task.estimatedTime}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Start Date" value="{{task.startDate | date:'dd-MM-yyyy HH:mm'}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Finish Date" value="{{task.finishDate | date:'dd-MM-yyyy HH:mm'}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile colspan="6">
+                        <mat-form-field style="width: 84%">
+                            <textarea matInput placeholder="Description" value="{{task.description}}" disabled></textarea>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile colspan="6">
+                        <mat-form-field style="width: 84%">
+                            <textarea matInput placeholder="Rejected Reason" value="{{task.reasonRejected}}" disabled></textarea>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile colspan="6">
+                        <mat-form-field style="width: 84%">
+                            <textarea  matInput placeholder="Blocked Reason" value="{{task.blockedReason}}" disabled></textarea>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
             </mat-tab>
 
-            <mat-tab label="Worklogs">
+            <mat-tab label="Worklogs" disabled="{{task.status == 'OPENED'}}">
                 <mat-list>
                     <h3 mat-subheader></h3>
                     <div class="scroll-container">
