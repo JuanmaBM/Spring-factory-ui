@@ -72,7 +72,7 @@
 
             </mat-tab>
 
-            <mat-tab label="Worklogs" disabled="{{task.status == 'OPENED'}}">
+            <mat-tab label="Worklogs">
                 <mat-list>
                     <h3 mat-subheader></h3>
                     <div class="scroll-container">
@@ -98,7 +98,8 @@
                             name="description"></textarea>
                     </mat-form-field>
                     <div class="large-input">
-                        <button mat-raised-button color="primary" (click)="createWorklog();">Register</button>
+                        <button mat-raised-button color="primary" (click)="createWorklog();"
+                            disabled="{{task.status == 'OPENED' || task.status == 'FINISHED' || task.status == 'REJECTED'}}">Register</button>
                         <button mat-raised-button color="default" (click)="resetWorklog();">Reset</button>
                     </div>
                 </form>
