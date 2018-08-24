@@ -41,4 +41,11 @@ export class ProductionScheduleComponent extends GenericComponent {
     
   }
 
+  getAll(){ 
+      this.getGenericService().get().subscribe(paginator => {
+        let list = !!paginator.list ? paginator.list : [];
+        this.modelList = list;
+        this.itemCount = list.length;
+      });
+    }
 }

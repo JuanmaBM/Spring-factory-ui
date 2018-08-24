@@ -1,0 +1,149 @@
+<mat-progress-bar
+    *ngIf="waitingResponse"
+    [color]="primary"
+    [mode]="'query'">
+</mat-progress-bar>
+
+<h1>{{order.name}}</h1>
+<h3>{{order.description}}</h3>
+
+<app-dialog-form-task (change)=receiveChange($event)></app-dialog-form-task>
+
+<mat-tab-group>
+    <mat-tab label="Statistics">
+
+        <div class="col-md-12" style="display: block">
+            <mat-slide-toggle
+                class="example-margin"
+                (change)="changeAutoRefresh(autoRefresh);"
+                [color]="colorToggle"
+                [checked]="autoRefresh">
+                Auto-refresh
+            </mat-slide-toggle>
+        </div>
+
+        <div *ngIf="numberOfTasks > 0 && showChart">
+
+            <div class="col-md-12 large-chart" style="display: block">
+                <h4>Estimated/Worked Time</h4>
+                <mat-divider></mat-divider>
+                <canvas baseChart
+                        [datasets]="hoursChartData"
+                        [options]="barChartOptions"
+                        [labels]="hoursChartLabels"
+                        [legend]="hoursChartLegend"
+                        [chartType]="hoursChartType">
+                </canvas>
+            </div>
+
+            <div class="col-md-12 large-chart" style="display: block">
+                <h4>Task information</h4>
+                <mat-divider></mat-divider>
+                <div class="col-md-6" style="display: block">
+                    <canvas baseChart
+                            [data]="priorityChartData"
+                            [labels]="priorityChartLabels"
+                            [chartType]="priorityChartType">
+                    </canvas>
+                </div>
+
+                <div class="col-md-6" style="display: block">
+                    <canvas baseChart
+                            [data]="statusChartData"
+                            [labels]="statusChartLabels"
+                            [chartType]="doughnutChartType">
+                    </canvas>
+                </div>
+            </div>
+
+            <div class="col-md-12 large-chart" style="display: block">
+                <h4>Group information</h4>
+                <mat-divider></mat-divider>
+                <div class="col-md-6" style="display: block">
+                    <canvas baseChart
+                            [data]="groupTaskChartData"
+                            [labels]="groupTaskChartLabel"
+                            [chartType]="priorityChartType">
+                    </canvas>
+                </div>
+
+                <div class="col-md-6" style="display: block">
+                    <canvas baseChart
+                            [data]="workedHoursGroupChartData"
+                            [labels]="workedHoursGroupChartLabels"
+                            [chartType]="priorityChartType">
+                    </canvas>
+                </div>
+            </div>
+<!-- 
+            <div class="col-md-12 large-chart" style="display: block">
+                <h4>Group information</h4>
+                <mat-divider></mat-divider>
+                <div class="col-md-6" style="display: block">
+                    <canvas baseChart
+                            [data]="groupTaskChartData"
+                            [labels]="groupTaskChartLabel"
+                            [chartType]="priorityChartType">
+                    </canvas>
+                </div>
+            </div> -->
+
+
+
+            <!-- <div class="col-md-12 large-chart" style="display: block">
+                <h4>Estimated/Worked Time</h4>
+                <mat-divider></mat-divider>
+                <canvas baseChart
+                        [datasets]="worklogCommentChartData"
+                        [options]="barChartOptions"
+                        [labels]="hoursChartLabels"
+                        [legend]="hoursChartLegend"
+                        [chartType]="hoursChartType">
+                </canvas>
+            </div> -->
+        </div>
+        <div *ngIf="numberOfTasks == 0" style="text-align: center">
+<!--             <mat-card style="background-color:red">Not exists any task yet</mat-card> -->
+            <div style="margin-top: 30px; color: #333;">
+                There aren't any tasks information registered
+                <mat-divider style="margin-left: 40%; margin-right: 40%;"></mat-divider>
+            </div>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Tasks">
+        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="creator">
+                <mat-header-cell *matHeaderCellDef> Creator </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.creator}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="priority">
+                <mat-header-cell *matHeaderCellDef> Priority </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.priority}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="estimatedTime">
+                <mat-header-cell *matHeaderCellDef> Estimated Time </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.estimatedTime}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button (click)="deleteTask(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-trash"></i></button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </mat-tab>
+</mat-tab-group>

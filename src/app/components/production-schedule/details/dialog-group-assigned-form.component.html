@@ -1,0 +1,10 @@
+<h1>Assigned groups</h1>
+
+<section *ngFor="let group of groups" class="example-section">
+    <mat-checkbox class="example-margin" [(ngModel)]="group.selected">
+        {{group.object.name}} ({{group.object.startHour}} - {{group.object.finishHour}})
+    </mat-checkbox>
+</section>
+
+<button mat-raised-button color="primary" (click)="updateGroupsSelected();">Save</button>
+<button mat-raised-button (click)="closeDialog();">Close</button>

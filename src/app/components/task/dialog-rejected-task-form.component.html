@@ -1,0 +1,15 @@
+<div>
+    <h3>Rejected reason</h3>
+    <form #taskForm="ngForm" class="task-form">
+        <mat-form-field *ngIf="data.action == 'REJECTED'" class="large-input">
+            <textarea matInput placeholder="Rejection reason" [(ngModel)]="data.task.reasonRejection" name="reasonRejection" required></textarea>
+        </mat-form-field>
+        <mat-form-field *ngIf="data.action == 'BLOCKED'" class="large-input">
+            <textarea matInput placeholder="Blocked reason" [(ngModel)]="data.task.blockedReason" name="blockedReason" required></textarea>
+        </mat-form-field>
+        <div>
+            <button mat-raised-button color="primary" (click)="doAction();">Create</button>
+            <button mat-raised-button color="default" (click)="close();">Cancel</button>
+        </div>
+    </form>
+</div>
