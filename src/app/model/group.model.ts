@@ -3,4 +3,8 @@ export class Group {
     name: string;
     startHour: string;
     finishHour: string;
+    
+    constructor(id?: number) {
+        this.id = id;
+    }
 }

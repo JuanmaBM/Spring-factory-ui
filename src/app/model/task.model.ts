@@ -7,6 +7,8 @@ export class Task {
     description: string;
     estimatedTime: number;
     orderNumber: number;
+    reasonRejection: string;
+    blockedReason: string;
     startDate: Date;
     finishDate: Date;
     creator: User;

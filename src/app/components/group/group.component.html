@@ -32,8 +32,11 @@
             <i>Actions</i>
           </ng-template>
           <ng-template #dataTableCell let-item="item">
-            <button (click)="editAction(item)" class="btn btn-sm btn-default">Edit</button>
-            <button (click)="delete(item.id)" class="btn btn-sm btn-default">Delete</button>
+              
+            <button (click)="editAction(item)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-edit"></i></button>
+            <button (click)="delete(item.id)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-trash"></i></button>
+            <button (click)="openDialog(item)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-tasks"></i></button>
+            <button (click)="openTaskListDialog(item)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-list-alt"></i></button>
           </ng-template>
         </data-table-column>
       </data-table>

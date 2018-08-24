@@ -4,10 +4,16 @@ import { TaskService } from "../../services/task.service";
 import { Order } from '../../model/order.model';
 import { Task } from '../../model/task.model';
 import { ErrorService } from '../../services/error.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
-import { OperatorFunction } from 'rxjs/interfaces';
+import { WorkLogService } from '../../services/worklog.service';
+import { CommentService } from '../../services/comment.service';
+import { GroupService } from '../../services/group.service';
+import { Group } from '../../model/group.model';
+import { BaseChartDirective } from 'ng2-charts';
+import { StatisticService } from '../../services/statistic.service';
+import { Subscription } from "rxjs";
+import { TimerObservable } from "rxjs/observable/TimerObservable";
 
 @Component({
   selector: 'app-order',
@@ -17,44 +23,75 @@ import { OperatorFunction } from 'rxjs/interfaces';
 })
 export class OrderComponent implements OnInit {
 
-  order: Order = new Order();
+	@ViewChild(BaseChartDirective)
+	public baseChart: BaseChartDirective;
+
+ 	order: Order = new Order();
 	task: Task = new Task();
 	tasks: Array<Task> = new Array<Task>();
+	groups: Array<Group> = new Array<Group>();
 
 	waitingResponse: Boolean = false;
 	orderId: number;
 	scheduleId: number;
+	showChart: Boolean = false;
+	colorToggle: string = "primary";
+	autoRefresh: Boolean = false;
 
 	priorityStatistics: Array<number> = new Array<number>();
 
   constructor(private orderService: OrderService, private errorService: ErrorService, private router: Router,
-        private route: ActivatedRoute, private taskService: TaskService) {}
+		private route: ActivatedRoute, private taskService: TaskService, private worklogService: WorkLogService,
+		private commentService: CommentService, private groupService: GroupService,
+		private statisticService: StatisticService) {}
 
 	displayedColumns = ['name', 'creator', 'status', 'priority','estimatedTime', 'actions'];
 	dataSource = new MatTableDataSource();
 
 	public numberOfTasks: number = 0;
+	public doughnutChartType: string = 'doughnut';
 
 	public priorityChartLabels: Array<string> = new Array<string>('HIGH', 'MEDIUM', 'LOW');
 	public priorityChartType: string = 'pie';
 	public priorityChartData: Array<number> = new Array<number>(0,0,0);
 
+	public statusChartLabels: Array<string> = new Array<string>("OPENED", "IN_PROGRESS", "ON_HOLD", "BLOCKED",
+        "FINISHED", "REJECTED", "DELETED");
+	public statusChartData: Array<number> = new Array<number>(0,0,0);
+
+	public groupTaskChartLabel: Array<string>;
+	public groupTaskChartData: Array<number> = new Array<number>(0,0,0);
+
+	public workedHoursGroupChartLabels: Array<string> = new Array<string>();
+	public workedHoursGroupChartData: Array<number> = new Array<number>(0,0,0);
+
+	public hoursChartLabels: Array<string> = new Array<string>();
+	public hoursChartType: string = 'bar';
+	public hoursChartData: any[] = [];
+	public hoursChartLegend: Boolean = true;
+
+	public worklogCommentChartData: Array<any> = [
+		{data: [], label: 'Worklog'}, 
+		{data: [], label: 'Comments'}, 
+	];
+	public worklogCommentChartType: string = 'bar';
+
+	public barChartOptions:any = {
+		scaleShowVerticalLines: false,
+		responsive: true
+	};
+
+	private autoRefreshSubscription: Subscription;
+
 	private assignTasks = tasks => {
 		this.numberOfTasks = tasks.length
 		this.tasks = tasks;
 		this.dataSource.data = this.tasks;
-		this.waitingResponse = false;
-		
-		let a = this.groupByAndCount((task: Task) => task.priority);
-		let dataSet: Array<number> = new Array<number>();
-		for(let key in a) {
-			let index = this.priorityChartLabels.indexOf(key);
-			dataSet[index] = (a[key]);
-		}
-		this.priorityChartData = dataSet;
 	};
 
     ngOnInit() {
+
+		this.waitingResponse = true;
 
 		let assignOrder = (order: Order) => this.order = order;
 		let getOrderByParamId = (scheduleId: number, orderId: number) =>
@@ -68,27 +105,92 @@ export class OrderComponent implements OnInit {
 			this.scheduleId = params.scheduleId;
 		};
 
+		let loadGroupData = groups => {
+			this.groups = groups;
+		};
+
+		this.groupService.get().subscribe(loadGroupData);
+
 		let routeParamsObserver = this.route.params;
 		routeParamsObserver.subscribe(assignOrderAndScheduleIds);
 		routeParamsObserver.subscribe(params => getOrderByParamId(params.scheduleId, params.orderId));
 		routeParamsObserver.subscribe(params => getTaskByOrderId(params.scheduleId, params.orderId));
-	}
-	
-	deleteTask(task) {
-		if(task) this.taskService.delete(this.scheduleId, this.orderId, task.id).subscribe(this.reloadTasks);
+		routeParamsObserver.subscribe(params => {
+			this.statisticService.get(params.scheduleId, params.orderId).subscribe(data => {
+
+				this.priorityChartData = this.loadChartData(data.priority);
+				this.statusChartData = this.loadChartData(data.status);
+				this.priorityChartLabels = this.loadChartLabel(data.priority);
+				this.statusChartLabels = this.loadChartLabel(data.status);
+
+				this.groupTaskChartLabel = this.loadChartLabel(data.taskByGroup);
+				this.groupTaskChartData = this.loadChartData(data.taskByGroup);
+				this.workedHoursGroupChartLabels = this.loadChartLabel(data.workedHoursByGroup);
+				this.workedHoursGroupChartData = this.loadChartData(data.workedHoursByGroup);
+				
+				//this.hoursChartLabels = this.loadChartLabel(data.estimatedHours);
+				this.loadHoursChartData(data);
+
+				this.showChart = true;
+				this.waitingResponse = false;
+			})
+		})
 	}
 
-	receiveChange = (task) => this.reloadTasks();
+	private loadHoursChartData(data: any) {
+
+		this.hoursChartData = [];
+		this.hoursChartLabels = [];
+		let estimatedTime = [];
+		let workedTime = [];
+
+		for (let key in data.estimatedHours) {
+			this.hoursChartLabels.push(key);
+			estimatedTime.push(data.estimatedHours[key]);
+			workedTime.push(data.workedHours[key]);
+		}
+
+		this.hoursChartData.push({ data: estimatedTime, label: 'Estimated Time' });
+		this.hoursChartData.push({ data: workedTime, label: 'Worked time' });
+	}
+
+	private loadChartLabel(data: any) {
+		let labels = [];
+		for (let key in data) {
+			labels.push(key);
+		}
+		return labels;
+	}
+	
+	private loadChartData(data: any) {
+		let priorityChartData = [];
+		for (let key in data) {
+			priorityChartData.push(data[key]);
+		}
+		return priorityChartData;
+	}
+
+	deleteTask(task) {
+		if(task) this.taskService.delete(this.scheduleId, this.orderId, task.id).subscribe(_ => this.ngOnInit());
+	}
+
+	receiveChange = (task) => this.ngOnInit();
 
 	private reloadTasks = () => {
 		this.waitingResponse = true;
 		this.taskService.get(this.scheduleId, this.orderId)
-			.subscribe(this.assignTasks, this.errorService.throwError)
+			.subscribe(this.assignTasks, this.errorService.throwError);
 	};
 
-	private groupByAndCount = (groupFunction: (Task) => any) => this.tasks.map(groupFunction)
-	  .reduce((obj, item) => {
-			obj[item] = (obj[item] || 0) + 1;
-			return obj;
-		},{})
+	public changeAutoRefresh(autoRefresh) {
+		this.autoRefresh = !autoRefresh;
+
+		if(this.autoRefresh) {
+			let timer = TimerObservable.create(2000, 10000);
+			this.autoRefreshSubscription = timer.subscribe(_ => this.ngOnInit());
+		} else {
+			this.autoRefreshSubscription.unsubscribe();
+		}
+	}
+
 }

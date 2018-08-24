@@ -1,7 +1,10 @@
-import { Comment } from "./comment.model";
+import { Group } from "./group.model";
+import { User } from "./user.model";
 
 export class WorkLog {
     id: number;
     hoursWorked: number;
-    comment: Comment;
+    description: String;
+    group: Group;
+    author: User;
 }

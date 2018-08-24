@@ -11,14 +11,96 @@
 
 <mat-tab-group>
     <mat-tab label="Statistics">
-        <div *ngIf="numberOfTasks > 0">
-            <div style="display: block">
+
+        <div class="col-md-12" style="display: block">
+            <mat-slide-toggle
+                class="example-margin"
+                (change)="changeAutoRefresh(autoRefresh);"
+                [color]="colorToggle"
+                [checked]="autoRefresh">
+                Auto-refresh
+            </mat-slide-toggle>
+        </div>
+
+        <div *ngIf="numberOfTasks > 0 && showChart">
+
+            <div class="col-md-12 large-chart" style="display: block">
+                <h4>Estimated/Worked Time</h4>
+                <mat-divider></mat-divider>
                 <canvas baseChart
-                        [data]="priorityChartData"
-                        [labels]="priorityChartLabels"
-                        [chartType]="priorityChartType">
+                        [datasets]="hoursChartData"
+                        [options]="barChartOptions"
+                        [labels]="hoursChartLabels"
+                        [legend]="hoursChartLegend"
+                        [chartType]="hoursChartType">
                 </canvas>
             </div>
+
+            <div class="col-md-12 large-chart" style="display: block">
+                <h4>Task information</h4>
+                <mat-divider></mat-divider>
+                <div class="col-md-6" style="display: block">
+                    <canvas baseChart
+                            [data]="priorityChartData"
+                            [labels]="priorityChartLabels"
+                            [chartType]="priorityChartType">
+                    </canvas>
+                </div>
+
+                <div class="col-md-6" style="display: block">
+                    <canvas baseChart
+                            [data]="statusChartData"
+                            [labels]="statusChartLabels"
+                            [chartType]="doughnutChartType">
+                    </canvas>
+                </div>
+            </div>
+
+            <div class="col-md-12 large-chart" style="display: block">
+                <h4>Group information</h4>
+                <mat-divider></mat-divider>
+                <div class="col-md-6" style="display: block">
+                    <canvas baseChart
+                            [data]="groupTaskChartData"
+                            [labels]="groupTaskChartLabel"
+                            [chartType]="priorityChartType">
+                    </canvas>
+                </div>
+
+                <div class="col-md-6" style="display: block">
+                    <canvas baseChart
+                            [data]="workedHoursGroupChartData"
+                            [labels]="workedHoursGroupChartLabels"
+                            [chartType]="priorityChartType">
+                    </canvas>
+                </div>
+            </div>
+<!-- 
+            <div class="col-md-12 large-chart" style="display: block">
+                <h4>Group information</h4>
+                <mat-divider></mat-divider>
+                <div class="col-md-6" style="display: block">
+                    <canvas baseChart
+                            [data]="groupTaskChartData"
+                            [labels]="groupTaskChartLabel"
+                            [chartType]="priorityChartType">
+                    </canvas>
+                </div>
+            </div> -->
+
+
+
+            <!-- <div class="col-md-12 large-chart" style="display: block">
+                <h4>Estimated/Worked Time</h4>
+                <mat-divider></mat-divider>
+                <canvas baseChart
+                        [datasets]="worklogCommentChartData"
+                        [options]="barChartOptions"
+                        [labels]="hoursChartLabels"
+                        [legend]="hoursChartLegend"
+                        [chartType]="hoursChartType">
+                </canvas>
+            </div> -->
         </div>
         <div *ngIf="numberOfTasks == 0" style="text-align: center">
 <!--             <mat-card style="background-color:red">Not exists any task yet</mat-card> -->

@@ -8,12 +8,14 @@ import { DataTableModule } from './components/data-table';
 import { LoginComponent } from './components/login/login.component';
 import { RoleComponent } from "./components/role/role.component";
 import { UserComponent } from "./components/user/user.component";
-import { GroupComponent } from "./components/group/group.component";
+import { GroupComponent, TaskGroupList } from "./components/group/group.component";
 import { ProductionScheduleComponent } from "./components/production-schedule/production-schedule.component";
 import { ProductionScheduleDetailsComponent } from './components/production-schedule/details/production-schedule-details.component';
 import { OrderComponent } from "./components/order/order.component";
 import { DialogFormTaskComponent } from "./components/task/form/dialog-form-task.component";
-import { FormTaskComponent } from "./components/task/form/dialog-form-task.component";
+import { TaskComponent } from "./components/task/task.component";
+import { DialogRejectedTaskForm } from "./components/task/task.component";
+import { DialogGroupAssignedForm } from "./components/production-schedule/details/production-schedule-details.component";
 
 import { AuthService } from "./services/auth.service";
 import { RoleService } from "./services/role.service";
@@ -25,6 +27,7 @@ import { ErrorService } from "./services/error.service";
 import { OrderService } from './services/order.service';
 import { WorkLogService } from './services/worklog.service';
 import { CommentService } from './services/comment.service';
+import { StatisticService } from './services/statistic.service';
 
 import { UrlPermission } from "./urlPermission/url.permission";
 import { routing } from "./app.routing";
@@ -46,7 +49,13 @@ import { MatSnackBarModule,
    MatDialogModule,
    MatDividerModule,
    MatStepperModule,
-   MatProgressBarModule } from '@angular/material';
+   MatProgressBarModule,
+   MatCheckboxModule, 
+   MatIconModule,
+   MatListModule,
+   MatSlideToggleModule} from '@angular/material';
+import { FormTaskComponent } from './components/task/form/form-task.component';
+import { TaskDetailsComponent } from './components/task/details/task-details.component';
 
 @NgModule({
   declarations: [
@@ -60,9 +69,18 @@ import { MatSnackBarModule,
     OrderComponent,
     DialogFormTaskComponent,
     FormTaskComponent,
+    TaskComponent,
+    DialogRejectedTaskForm,
+    DialogGroupAssignedForm, 
+    TaskGroupList,
+    TaskDetailsComponent,
   ],
   entryComponents: [
-    FormTaskComponent
+    FormTaskComponent,
+    DialogRejectedTaskForm,
+    DialogGroupAssignedForm,
+    TaskDetailsComponent,
+    TaskGroupList
   ],
   imports: [
     BrowserModule,
@@ -74,8 +92,10 @@ import { MatSnackBarModule,
     BrowserAnimationsModule,
     MatTabsModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
     MatGridListModule,
+    MatListModule,
     MatCardModule,
     MatSelectModule,
     MatButtonModule,
@@ -85,7 +105,9 @@ import { MatSnackBarModule,
     MatDividerModule,
     MatProgressBarModule,
     MatStepperModule,
-    ChartsModule
+    ChartsModule,
+    MatCheckboxModule,
+    MatSlideToggleModule
   ],
   providers: [AuthService,
     UrlPermission, 
@@ -98,6 +120,7 @@ import { MatSnackBarModule,
     TaskService,
     WorkLogService,
     CommentService,
+    StatisticService,
     MatDialog
   ],
   bootstrap: [AppComponent]
