@@ -27,6 +27,7 @@ import { ErrorService } from "./services/error.service";
 import { OrderService } from './services/order.service';
 import { WorkLogService } from './services/worklog.service';
 import { CommentService } from './services/comment.service';
+import { StatisticService } from './services/statistic.service';
 
 import { UrlPermission } from "./urlPermission/url.permission";
 import { routing } from "./app.routing";
@@ -51,7 +52,8 @@ import { MatSnackBarModule,
    MatProgressBarModule,
    MatCheckboxModule, 
    MatIconModule,
-   MatListModule} from '@angular/material';
+   MatListModule,
+   MatSlideToggleModule} from '@angular/material';
 import { FormTaskComponent } from './components/task/form/form-task.component';
 import { TaskDetailsComponent } from './components/task/details/task-details.component';
 
@@ -104,7 +106,8 @@ import { TaskDetailsComponent } from './components/task/details/task-details.com
     MatProgressBarModule,
     MatStepperModule,
     ChartsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSlideToggleModule
   ],
   providers: [AuthService,
     UrlPermission, 
@@ -117,6 +120,7 @@ import { TaskDetailsComponent } from './components/task/details/task-details.com
     TaskService,
     WorkLogService,
     CommentService,
+    StatisticService,
     MatDialog
   ],
   bootstrap: [AppComponent]

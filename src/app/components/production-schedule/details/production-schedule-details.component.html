@@ -115,6 +115,7 @@
                             <button routerLink="/schedule/{{schedule.id}}/order/{{element.id}}" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-log-in"></i></button>
                             <button *ngIf="element.status == 'OPEN'" (click)="startOrder(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-play"></i></button>
                             <button *ngIf="element.status == 'IN_PROGRESS'" (click)="closeOrder(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-ok"></i></button>
+                            <button *ngIf="element.status == 'CLOSE'" (click)="reOpenOrder(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-repeat"></i></button>
                         </mat-cell>
                     </ng-container>
                 

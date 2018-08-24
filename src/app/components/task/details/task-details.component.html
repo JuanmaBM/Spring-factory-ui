@@ -79,7 +79,7 @@
                     <mat-list-item *ngFor="let worklog of worklogs">
                         <mat-icon mat-list-icon>arrow_forward_ios</mat-icon>
                         <h4 mat-line>{{worklog.description}}</h4>
-                        <p mat-line>{{worklog.hoursWorked}} minutes | Evening</p>
+                        <p mat-line>{{worklog.hoursWorked}} minutes | {{worklog.group ? worklog.group.name : '-'}}</p>
                         <button (click)="deleteWorklog(worklog.id)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-trash"></i></button>
                     </mat-list-item>
                     </div>

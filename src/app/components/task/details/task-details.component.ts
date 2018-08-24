@@ -8,6 +8,7 @@ import { ErrorService } from "../../../services/error.service";
 import { WorkLog } from "../../../model/worklog.model";
 import { Comment } from "../../../model/comment.model";
 import { User } from "../../../model/user.model";
+import { Group } from "../../../model/group.model";
 
 @Component({
     selector: 'app-task-details',
@@ -58,6 +59,7 @@ export class TaskDetailsComponent implements OnInit {
 
         this.validateForm(this.validateWorkLog, "Must fills Time worked and description fields");
 
+        this.worklog.author = new User("99999999R");
         this.worklogService.post(0, this.orderId, this.taskId, JSON.stringify(this.worklog))
             .subscribe(this.loadWorkLogs).add(this.resetWorklog);
     }

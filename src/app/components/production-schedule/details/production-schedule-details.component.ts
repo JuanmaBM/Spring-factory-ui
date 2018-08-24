@@ -110,6 +110,8 @@ export class ProductionScheduleDetailsComponent implements OnInit {
 
     closeOrder = (order: Order) => this.updateStatusOrder(order, OrderStatusEnum.CLOSE);
 
+    reOpenOrder = (order: Order) => this.updateStatusOrder(order, OrderStatusEnum.OPEN);
+
     private updateStatusOrder(order: Order, status: OrderStatusEnum) {
         let copyOrder = new Order(order);
         copyOrder.status = status;
