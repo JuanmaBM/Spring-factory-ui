@@ -16,6 +16,7 @@ import { DialogFormTaskComponent } from "./components/task/form/dialog-form-task
 import { TaskComponent } from "./components/task/task.component";
 import { DialogRejectedTaskForm } from "./components/task/task.component";
 import { DialogGroupAssignedForm } from "./components/production-schedule/details/production-schedule-details.component";
+import { MainComponent } from "./components/main/main.component";
 
 import { AuthService } from "./services/auth.service";
 import { RoleService } from "./services/role.service";
@@ -53,7 +54,8 @@ import { MatSnackBarModule,
    MatCheckboxModule, 
    MatIconModule,
    MatListModule,
-   MatSlideToggleModule} from '@angular/material';
+   MatSlideToggleModule,
+   MatSidenavModule} from '@angular/material';
 import { FormTaskComponent } from './components/task/form/form-task.component';
 import { TaskDetailsComponent } from './components/task/details/task-details.component';
 
@@ -74,6 +76,7 @@ import { TaskDetailsComponent } from './components/task/details/task-details.com
     DialogGroupAssignedForm, 
     TaskGroupList,
     TaskDetailsComponent,
+    MainComponent
   ],
   entryComponents: [
     FormTaskComponent,
@@ -107,7 +110,8 @@ import { TaskDetailsComponent } from './components/task/details/task-details.com
     MatStepperModule,
     ChartsModule,
     MatCheckboxModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSidenavModule
   ],
   providers: [AuthService,
     UrlPermission, 
