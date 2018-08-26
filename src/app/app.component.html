@@ -1,19 +1,22 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isAuthenticated()">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item dropdown">
           <a class="navbar-brand dropdown-toggle glyphicon glyphicon-th-list" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" routerLink="/main" routerLinkActive="active">Main</a>
             <a class="dropdown-item" routerLink="/user" routerLinkActive="active">Manage users</a>
             <a class="dropdown-item" routerLink="/role" routerLinkActive="active">Manage roles</a>
             <a class="dropdown-item" routerLink="/group" routerLinkActive="active">Manage groups</a>
             <a class="dropdown-item" routerLink="/schedule" routerLinkActive="active">Manage production schedules</a>
-            <a class="dropdown-item" routerLink="/task" routerLinkActive="active">Register production data</a>
+            <a class="dropdown-item" routerlink="/task" routerlinkactive="active">Register production data</a>
           </div>
         </li>
       </ul>
     </div>
+    <div>
+      <button mat-button (click)="logout()"><i class="glyphicon glyphicon-log-out" ></i></button>
+    </div>
   </nav>
 <router-outlet></router-outlet>
-<!-- MatSidenavModule -->

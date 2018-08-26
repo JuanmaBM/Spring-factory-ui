@@ -28,8 +28,13 @@ import {Md5} from 'ts-md5/dist/md5';
     this.http.get(AppComponent.API_URL + "/api/connection");
 
   logOut() {
-    return this.http.post(AppComponent.API_URL+"logout",{})
-      .map((response: Response) => localStorage.removeItem('currentUser'));
+
+    let headers = new Headers({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'});
+    headers.append('Access-Control-Allow-Origin', '*');
+    let options = new RequestOptions({ headers: headers });
+
+    this.http.post(AppComponent.API_URL + "/logout", undefined, options).subscribe(_ => _);
+    localStorage.removeItem('currentUser');
   }
 
 }

@@ -13,16 +13,14 @@ import { MainComponent } from './components/main/main.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'main', component: MainComponent },
+  { path: 'main', component: MainComponent, canActivate: [UrlPermission]},
   { path: 'role', component: RoleComponent, canActivate: [UrlPermission]},
-  { path: 'user', component: UserComponent},
+  { path: 'user', component: UserComponent, canActivate: [UrlPermission]},
   { path: 'group', component: GroupComponent, canActivate: [UrlPermission]},
   { path: 'schedule', component: ProductionScheduleComponent, canActivate: [UrlPermission]},
   { path: 'schedule/:id', component: ProductionScheduleDetailsComponent, canActivate: [UrlPermission]},
   { path: 'schedule/:scheduleId/order/:orderId', component: OrderComponent, canActivate: [UrlPermission]},
   { path: 'task', component: TaskComponent, canActivate: [UrlPermission]},
-
-  //{ path: '**', redirectTo: 'login' }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);
