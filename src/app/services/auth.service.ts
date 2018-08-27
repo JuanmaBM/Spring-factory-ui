@@ -1,9 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions,Response, URLSearchParams} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {AppComponent} from "../app.component"; 
 import {Md5} from 'ts-md5/dist/md5';
-@Injectable() export class AuthService { constructor(public http: Http) { }
+@Injectable() export class AuthService { 
+
+  public changeLogin: EventEmitter<boolean>;
+
+  constructor(public http: Http) { 
+    this.changeLogin = new EventEmitter();
+  }
 
   public logIn(username: string, password: string){
 
@@ -21,6 +27,8 @@ import {Md5} from 'ts-md5/dist/md5';
       .map((response) => {
         let responseBody = response.json();
         localStorage.setItem('currentUser', JSON.stringify(responseBody.sessionId));
+        localStorage.setItem('permissions', JSON.stringify(responseBody.grantedAuthorities));
+        this.changeLogin.emit(true);
       });
   }
 
@@ -33,7 +41,7 @@ import {Md5} from 'ts-md5/dist/md5';
     headers.append('Access-Control-Allow-Origin', '*');
     let options = new RequestOptions({ headers: headers });
 
-    this.http.post(AppComponent.API_URL + "/logout", undefined, options).subscribe(_ => _);
+    //this.http.post(AppComponent.API_URL + "/logout", undefined, options).subscribe(_ => _);
     localStorage.removeItem('currentUser');
   }
 

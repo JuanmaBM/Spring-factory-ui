@@ -2,10 +2,11 @@ import { Component, Input, OnInit, NgModule, ViewEncapsulation, ViewChild } from
 import {RoleService} from "../../services/role.service";
 import {Router} from "@angular/router";
 import {Role} from "../../model/role.model";
-import {PERMISSIONS} from "../../model/permission.mode";
 import { DataTable, DataTableResource } from '../data-table';
 import { GenericComponent } from '../generic.component';
 import { ErrorService } from '../../services/error.service';
+import { PermissionService } from '../../services/permission.service';
+import { Permission } from '../../model/permission.mode';
 
 
 @Component({
@@ -16,9 +17,10 @@ import { ErrorService } from '../../services/error.service';
 })
 export class RoleComponent extends GenericComponent {
 
-  permissions = PERMISSIONS;
+  permissions: Array<Permission>;
 
-  constructor(private roleService: RoleService, private errorService: ErrorService) {
+  constructor(private roleService: RoleService, private errorService: ErrorService,
+    private permissionService: PermissionService) {
     super();
   }
 
@@ -36,6 +38,16 @@ export class RoleComponent extends GenericComponent {
 
   getErrorService() {
     return this.errorService;
+  }
+
+  openForm() {
+    this.permissionService.get().subscribe(permissions => this.permissions = permissions);
+    super.openForm()
+  }
+
+  editAction(modelSelected) {
+    this.permissionService.get().subscribe(permissions => this.permissions = permissions);
+    super.editAction(modelSelected);
   }
 
 }

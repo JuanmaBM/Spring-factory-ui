@@ -29,6 +29,7 @@ import { OrderService } from './services/order.service';
 import { WorkLogService } from './services/worklog.service';
 import { CommentService } from './services/comment.service';
 import { StatisticService } from './services/statistic.service';
+import { PermissionService } from './services/permission.service';
 
 import { UrlPermission } from "./urlPermission/url.permission";
 import { routing } from "./app.routing";
@@ -125,7 +126,8 @@ import { TaskDetailsComponent } from './components/task/details/task-details.com
     WorkLogService,
     CommentService,
     StatisticService,
-    MatDialog
+    MatDialog,
+    PermissionService
   ],
   bootstrap: [AppComponent]
 })
