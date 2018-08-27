@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from "@angular/core";
-import { ProductionScheduleService } from "../../services/production-schedule.service";
-import { ProductionSchedule } from "../../model/ProductionSchedule.model";
 import { OrderService } from "../../services/order.service";
+import { UserService } from "../../services/user.service";
 import { Order } from "../../model/order.model";
 import { TaskService } from "../../services/task.service";
+import { ErrorService } from "../../services/error.service";
 import { Task, TaskStatus } from "../../model/task.model";
 import { GroupService } from "../../services/group.service";
 import { Group } from "../../model/group.model";
@@ -29,25 +29,33 @@ export class TaskComponent implements OnInit {
     specifyGroupTasks = {};
 
     constructor(private groupService : GroupService, private orderService : OrderService,
-        private taskService : TaskService, private dialog: MatDialog) {}
+        private taskService : TaskService, private dialog: MatDialog, private userService: UserService,
+        private errorService: ErrorService) {}
 
     ngOnInit() {
 
-        let groupId = 2;
+        let currentUserGroup = localStorage.getItem('groupId');
+        if (currentUserGroup) {
+            this.getTaskData(currentUserGroup);
+        } else {
+            this.errorService.showErrorMessage('You do not have any group assigned, please contact with administrator or production manager');
+        }
+    }
+
+    private getTaskData(groupId) {
+
         let getTaskByOrder = order => {
-            let firstTask : Order = order[0];
+            let firstTask: Order = order[0];
             if (firstTask)
                 this.taskService.get(0, firstTask.id).subscribe(task => {
-                    this.tasks = task
+                    this.tasks = task;
                     this.groupTasks = task.reduce((obj, item) => {
                         (obj[item['status']] = obj[item['status']] || []).push(item);
                         return obj;
                     }, {});
                 });
-        }
-        
+        };
         let orderByGroupObserver = this.getOrderByGroupId(groupId);
-
         orderByGroupObserver.subscribe(getTaskByOrder);
         orderByGroupObserver.subscribe(orders => this.currentOrder = orders[0]);
         this.groupService.get(groupId).subscribe(group => this.userGroup = group);

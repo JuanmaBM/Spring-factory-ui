@@ -26,7 +26,14 @@ import {Md5} from 'ts-md5/dist/md5';
     return this.http.post(AppComponent.API_URL+"/api/login", params, options)
       .map((response) => {
         let responseBody = response.json();
-        localStorage.setItem('currentUser', JSON.stringify(responseBody.sessionId));
+
+        let groupId = JSON.stringify(responseBody.groupId);
+        if (groupId != 'null') {
+          localStorage.setItem('groupId', groupId);
+        }
+
+        localStorage.setItem('currentUser', JSON.stringify(responseBody.username));
+        localStorage.setItem('session', JSON.stringify(responseBody.sessionId));
         localStorage.setItem('permissions', JSON.stringify(responseBody.grantedAuthorities));
         this.changeLogin.emit(true);
       });
@@ -43,6 +50,9 @@ import {Md5} from 'ts-md5/dist/md5';
 
     //this.http.post(AppComponent.API_URL + "/logout", undefined, options).subscribe(_ => _);
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('session');
+    localStorage.removeItem('permissions');
+    localStorage.removeItem('groupId');
   }
 
 }

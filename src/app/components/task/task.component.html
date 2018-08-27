@@ -80,6 +80,7 @@
 </mat-card>
 </div>
 
+<div *ngIf="tasks.length > 0">
 <h1>PRODUCTION ORDER TASK</h1>
 
 <mat-card class="example-card">
@@ -237,3 +238,11 @@
         </mat-expansion-panel>
     </mat-accordion>
 </mat-card>
+</div>
+
+<div *ngIf="numberOfTask == 0 && specifyTasks.length == 0" style="text-align: center">
+    <div style="margin-top: 30px; color: #333;">
+        There are not production data
+        <mat-divider style="margin-left: 40%; margin-right: 40%;"></mat-divider>
+    </div>
+</div>
