@@ -17,6 +17,7 @@ import { Group } from "../../../model/group.model";
 })
 export class TaskDetailsComponent implements OnInit {
 
+    currentUser: string;
     orderId: number;
     taskId: number;
     task: Task = new Task();
@@ -36,6 +37,7 @@ export class TaskDetailsComponent implements OnInit {
 
     ngOnInit() {
 
+        this.currentUser = localStorage.getItem('currentUser');
         this.taskId = this.data.task.id;
         this.orderId = this.data.order.id;
 
@@ -59,7 +61,7 @@ export class TaskDetailsComponent implements OnInit {
 
         this.validateForm(this.validateWorkLog, "Must fills Time worked and description fields");
 
-        this.worklog.author = new User("99999999R");
+        this.worklog.author = new User(this.currentUser);
         this.worklogService.post(0, this.orderId, this.taskId, JSON.stringify(this.worklog))
             .subscribe(this.loadWorkLogs).add(this.resetWorklog);
     }
@@ -81,7 +83,7 @@ export class TaskDetailsComponent implements OnInit {
 
         this.validateForm(this.validateComment, "Must fills comment field");
 
-        this.comment.author = new User("99999999R");
+        this.comment.author = new User(this.currentUser);
         this.comment.creationDate = new Date();
         this.commentService.post(0, this.orderId, this.taskId, JSON.stringify(this.comment))
             .subscribe(this.loadComments).add(this.resetComment);
