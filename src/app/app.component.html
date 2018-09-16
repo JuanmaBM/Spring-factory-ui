@@ -1,1 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isAuthenticated()">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="navbar-brand dropdown-toggle glyphicon glyphicon-th-list" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" routerLink="/main" routerLinkActive="active">Main</a>
+            <a *ngFor="let option of menu" class="dropdown-item" routerLink="{{option.link}}" routerLinkActive="active">
+              {{option.text}}</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <button mat-button (click)="logout()"><i class="glyphicon glyphicon-log-out" ></i></button>
+    </div>
+  </nav>
 <router-outlet></router-outlet>

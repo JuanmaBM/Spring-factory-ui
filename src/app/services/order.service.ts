@@ -10,16 +10,27 @@ import { GenericService } from "./generic.service";
 
     constructor(public http: Http) { }
 
-    private buildResourceUrl(idTask: number, idOrder?: number) {
+    private buildResourceUrl(idTask: number, idOrder?: number, queryParams?: Map<string, string>) {
 
         let url = AppComponent.API_URL + "/schedule/" + idTask + "/order";
 
         if(idOrder) {
             url += "/" + idOrder
         }
+        if(queryParams) {
+            url = this.addQueryParamsIntoUrl(queryParams, url);
+        }
 
         return url;
     };
+    
+    private addQueryParamsIntoUrl(queryParams: Map<string, string>, url: string) : string {
+        let urlWithQuery = url.indexOf('?') == -1 ? url + "?" : url;
+        queryParams.forEach((value, key) => {
+            urlWithQuery += key + '=' + value + "&&";
+        });
+        return urlWithQuery;
+    }
 
     private getResponseBody = (response: any) => response.json();
 
@@ -31,7 +42,7 @@ import { GenericService } from "./generic.service";
 
     public delete = (idTask: number, idOrder: number) => this.http.delete(this.buildResourceUrl(idTask, idOrder));
 
-    public get = (idTask: number, idOrder?: number) => 
-        this.http.get(this.buildResourceUrl(idTask, idOrder)).map(this.getResponseBody)
+    public get = (idTask: number, idOrder?: number, queryParams?: Map<string, string>) => 
+        this.http.get(this.buildResourceUrl(idTask, idOrder, queryParams)).map(this.getResponseBody)
 
 }

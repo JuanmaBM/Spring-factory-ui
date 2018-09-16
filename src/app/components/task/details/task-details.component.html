@@ -1,0 +1,137 @@
+
+<h1>Groups Task </h1>
+<mat-divider></mat-divider>
+
+<mat-card class="content">
+    <mat-card-content>
+        <mat-tab-group>
+            <mat-tab label="Details">
+                <h3 style="text-align: center">Time Used: {{timeUsed | number:'1.2-2'}}%</h3>
+                <mat-progress-bar mode="determinate" value="{{this.timeUsed}}"
+                    color="{{timeUsed < 101 ? 'primary' : 'warn'}}"></mat-progress-bar>
+
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Name" value="{{task.name}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Priority" value="{{task.priority}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Status" value="{{task.status}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Estimated Time (Minutes)" value="{{task.estimatedTime}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Start Date" value="{{task.startDate | date:'dd-MM-yyyy HH:mm'}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field>
+                            <input matInput placeholder="Finish Date" value="{{task.finishDate | date:'dd-MM-yyyy HH:mm'}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile colspan="6">
+                        <mat-form-field style="width: 84%">
+                            <textarea matInput placeholder="Description" value="{{task.description}}" disabled></textarea>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile colspan="6">
+                        <mat-form-field style="width: 84%">
+                            <textarea matInput placeholder="Rejected Reason" value="{{task.reasonRejected}}" disabled></textarea>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="6" rowHeight="100px">
+                    <mat-grid-tile colspan="6">
+                        <mat-form-field style="width: 84%">
+                            <textarea  matInput placeholder="Blocked Reason" value="{{task.blockedReason}}" disabled></textarea>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+            </mat-tab>
+
+            <mat-tab label="Worklogs">
+                <mat-list>
+                    <h3 mat-subheader></h3>
+                    <div class="scroll-container">
+                    <mat-list-item *ngFor="let worklog of worklogs">
+                        <mat-icon mat-list-icon>arrow_forward_ios</mat-icon>
+                        <h4 mat-line>{{worklog.description}}</h4>
+                        <p mat-line>{{worklog.hoursWorked}} minutes | {{worklog.group ? worklog.group.name : '-'}}</p>
+                        <button (click)="deleteWorklog(worklog.id)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-trash"></i></button>
+                    </mat-list-item>
+                    </div>
+                </mat-list>
+
+                <mat-divider></mat-divider>
+                <mat-divider></mat-divider>
+
+                <form #taskForm="ngForm" class="task-form">
+                    <mat-form-field class="small-input">
+                        <input type="number" matInput placeholder="Time worked" [(ngModel)]="worklog.hoursWorked" 
+                            name="hoursWorked">
+                    </mat-form-field>
+                    <mat-form-field class="large-input">
+                        <textarea  matInput placeholder="Description" [(ngModel)]="worklog.description" 
+                            name="description"></textarea>
+                    </mat-form-field>
+                    <div class="large-input">
+                        <button mat-raised-button color="primary" (click)="createWorklog();"
+                            disabled="{{task.status == 'OPENED' || task.status == 'FINISHED' || task.status == 'REJECTED'}}">Register</button>
+                        <button mat-raised-button color="default" (click)="resetWorklog();">Reset</button>
+                    </div>
+                </form>
+            </mat-tab>
+
+            <mat-tab label="Comments">
+                <mat-list>
+                    <h3 mat-subheader></h3>
+                    <div class="scroll-container">
+                    <mat-list-item *ngFor="let comment of comments">
+                        <mat-icon mat-list-icon>add_comment</mat-icon>
+                        <h4 mat-line class="line-comment-text">{{comment.text}}</h4>
+                        <p mat-line>{{comment.author.group.name}}({{comment.author.name}}) | {{comment.creationDate | date:'dd-MM-yyyy HH:mm'}}</p>
+                        <button (click)="deleteComment(comment.id)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-trash"></i></button>
+                        <mat-divider></mat-divider>
+                    </mat-list-item>
+                    </div>
+                </mat-list>
+
+                <mat-divider></mat-divider>
+
+                <form #taskForm="ngForm" class="task-form">
+                    <mat-form-field class="extra-large-input">
+                        <textarea  matInput placeholder="Comment" [(ngModel)]="comment.text" 
+                            name="comment"></textarea>
+                    </mat-form-field>
+                    <div class="large-input">
+                        <button mat-raised-button color="primary" (click)="createComment();">Register</button>
+                        <button mat-raised-button color="default" (click)="resetComment();">Reset</button>
+                    </div>
+                </form>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

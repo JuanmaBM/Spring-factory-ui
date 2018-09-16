@@ -1,10 +1,13 @@
-import { Component, Input, OnInit, NgModule, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { GroupService } from "../../services/group.service";
-import {Router} from "@angular/router";
-import { DataTable, DataTableResource } from '../data-table';
 import { Group } from '../../model/group.model';
 import { ErrorService } from '../../services/error.service';
 import { GenericComponent } from '../generic.component';
+import { Task } from '../../model/task.model';
+import { TaskService } from '../../services/task.service';
+import { FormTaskComponent } from '../task/form/form-task.component';
+import { MatTableDataSource } from '@angular/material';
 
 
 @Component({
@@ -15,7 +18,8 @@ import { GenericComponent } from '../generic.component';
 })
 export class GroupComponent extends GenericComponent {
 
-  constructor(private groupService: GroupService, private errorService: ErrorService) {
+  constructor(private groupService: GroupService, private errorService: ErrorService, 
+    private dialog: MatDialog) {
     super();
   }
 
@@ -34,4 +38,66 @@ export class GroupComponent extends GenericComponent {
   getErrorService() {
     return this.errorService;
   }
+
+  openDialog(group: Group): void {
+    let dialogRef = this.dialog.open(FormTaskComponent, {
+        width: '50%',
+        height: '80%'
+    });
+
+    dialogRef.afterClosed().subscribe(task => {
+        if(task) this.createTask(group.id, task);
+    });
+  }
+
+  openTaskListDialog(group: Group): void {
+    let dialogRef = this.dialog.open(TaskGroupList, {
+        width: '50%',
+        height: '80%',
+        data: { group: group}
+    });
+  }
+
+  private createTask(groupId: number, task: Task) {
+    if (task) {
+        this.groupService.createTask(groupId, JSON.stringify(task))
+            .subscribe(res => console.log(res));
+    } else {
+        this.errorService.showErrorMessage("An error occurred when creating the task");
+    }
+  }
+}
+
+@Component({
+    selector: 'app-task-group-list',
+    templateUrl: 'task-group-list.component.html',
+})
+export class TaskGroupList implements OnInit {
+
+    displayedColumns = ['name', 'status', 'priority','estimatedTime', 'actions'];
+    dataSource = new MatTableDataSource();
+    task: Array<Task> = new Array<Task>();
+
+    constructor(public dialogRef: MatDialogRef<TaskGroupList>, @Inject(MAT_DIALOG_DATA) public data: any, 
+      public groupService: GroupService,) {}
+
+    ngOnInit() {
+      this.loadTask();
+    }
+
+    loadTask() {
+      this.groupService.getTask(this.data.group.id).subscribe(task => {
+        this.task = task;
+        this.dataSource.data = this.task;
+      });
+    }
+
+    deleteTask = task => this.groupService.deleteTask(this.data.group.id, task.id).subscribe(_ => {
+      this.groupService.getTask(this.data.group.id).subscribe(task => {
+        this.task = task;
+        this.dataSource.data = this.task;
+      });
+    });
+
+    close = (task: Task = undefined) => this.dialogRef.close(task);
 }

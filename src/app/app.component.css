@@ -5,3 +5,7 @@
 .large-input {
     width: 70%;
 }
+
+.glyphicon.glyphicon-log-out {
+    font-size: 25px;
+}

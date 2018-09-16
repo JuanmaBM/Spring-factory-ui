@@ -101,11 +101,21 @@
                         <mat-cell *matCellDef="let element"> {{element.measurements}} </mat-cell>
                     </ng-container>
 
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+                    </ng-container>
+
                     <ng-container matColumnDef="actions">
                         <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
                         <mat-cell *matCellDef="let element">
                             <button (click)="delete(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-trash"></i></button>
                             <button (click)="editForm(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-edit"></i></button>
+                            <button (click)="openAssignDialog(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-user"></i></button>
+                            <button routerLink="/schedule/{{schedule.id}}/order/{{element.id}}" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-log-in"></i></button>
+                            <button *ngIf="element.status == 'OPEN'" (click)="startOrder(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-play"></i></button>
+                            <button *ngIf="element.status == 'IN_PROGRESS'" (click)="closeOrder(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-ok"></i></button>
+                            <button *ngIf="element.status == 'CLOSE'" (click)="reOpenOrder(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-repeat"></i></button>
                         </mat-cell>
                     </ng-container>
                 

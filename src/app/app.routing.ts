@@ -6,17 +6,21 @@ import { UserComponent } from './components/user/user.component';
 import { GroupComponent } from './components/group/group.component'
 import { ProductionScheduleComponent } from './components/production-schedule/production-schedule.component'
 import { ProductionScheduleDetailsComponent } from './components/production-schedule/details/production-schedule-details.component';
+import { OrderComponent } from "./components/order/order.component"
+import { TaskComponent } from './components/task/task.component';
+import { MainComponent } from './components/main/main.component';
 
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'main', component: MainComponent, canActivate: [UrlPermission]},
   { path: 'role', component: RoleComponent, canActivate: [UrlPermission]},
   { path: 'user', component: UserComponent, canActivate: [UrlPermission]},
   { path: 'group', component: GroupComponent, canActivate: [UrlPermission]},
   { path: 'schedule', component: ProductionScheduleComponent, canActivate: [UrlPermission]},
   { path: 'schedule/:id', component: ProductionScheduleDetailsComponent, canActivate: [UrlPermission]},
-
-  { path: '**', redirectTo: 'login' }
+  { path: 'schedule/:scheduleId/order/:orderId', component: OrderComponent, canActivate: [UrlPermission]},
+  { path: 'task', component: TaskComponent, canActivate: [UrlPermission]},
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);
