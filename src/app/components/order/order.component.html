@@ -139,6 +139,7 @@
                 <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <button (click)="deleteTask(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-trash"></i></button>
+                    <button (click)="openCommentsDialog(element)" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-tasks"></i></button>
                 </mat-cell>
             </ng-container>
 

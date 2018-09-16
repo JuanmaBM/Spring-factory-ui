@@ -11,7 +11,7 @@ import { UserComponent } from "./components/user/user.component";
 import { GroupComponent, TaskGroupList } from "./components/group/group.component";
 import { ProductionScheduleComponent } from "./components/production-schedule/production-schedule.component";
 import { ProductionScheduleDetailsComponent } from './components/production-schedule/details/production-schedule-details.component';
-import { OrderComponent } from "./components/order/order.component";
+import { OrderComponent, CommentDialog } from "./components/order/order.component";
 import { DialogFormTaskComponent } from "./components/task/form/dialog-form-task.component";
 import { TaskComponent } from "./components/task/task.component";
 import { DialogRejectedTaskForm } from "./components/task/task.component";
@@ -77,14 +77,16 @@ import { TaskDetailsComponent } from './components/task/details/task-details.com
     DialogGroupAssignedForm, 
     TaskGroupList,
     TaskDetailsComponent,
-    MainComponent
+    MainComponent,
+    CommentDialog
   ],
   entryComponents: [
     FormTaskComponent,
     DialogRejectedTaskForm,
     DialogGroupAssignedForm,
     TaskDetailsComponent,
-    TaskGroupList
+    TaskGroupList,
+    CommentDialog
   ],
   imports: [
     BrowserModule,

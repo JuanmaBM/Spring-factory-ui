@@ -1,11 +1,11 @@
-import { Component, OnInit, NgModule, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, NgModule, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { OrderService } from "../../services/order.service";
 import { TaskService } from "../../services/task.service";
 import { Order } from '../../model/order.model';
 import { Task } from '../../model/task.model';
 import { ErrorService } from '../../services/error.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { WorkLogService } from '../../services/worklog.service';
 import { CommentService } from '../../services/comment.service';
 import { GroupService } from '../../services/group.service';
@@ -14,6 +14,8 @@ import { BaseChartDirective } from 'ng2-charts';
 import { StatisticService } from '../../services/statistic.service';
 import { Subscription } from "rxjs";
 import { TimerObservable } from "rxjs/observable/TimerObservable";
+import { Comment } from "../../model/comment.model";
+import { User } from '../../model/user.model';
 
 @Component({
   selector: 'app-order',
@@ -43,7 +45,7 @@ export class OrderComponent implements OnInit {
   constructor(private orderService: OrderService, private errorService: ErrorService, private router: Router,
 		private route: ActivatedRoute, private taskService: TaskService, private worklogService: WorkLogService,
 		private commentService: CommentService, private groupService: GroupService,
-		private statisticService: StatisticService) {}
+		private statisticService: StatisticService, private dialog: MatDialog) {}
 
 	displayedColumns = ['name', 'creator', 'status', 'priority','estimatedTime', 'actions'];
 	dataSource = new MatTableDataSource();
@@ -193,4 +195,65 @@ export class OrderComponent implements OnInit {
 		}
 	}
 
+	openCommentsDialog(task: Task): void {
+		let dialogRef = this.dialog.open(CommentDialog, {
+			width: '50%',
+			height: '80%',
+			data: { orderId: this.orderId, taskId: task.id}
+		});
+	}
+
+}
+
+@Component({
+    selector: 'app-comment-dialog',
+    templateUrl: 'comment-dialog.component.html',
+	styleUrls: ['./comment-dialog.component.css'],
+})
+export class CommentDialog implements OnInit {
+
+	comments: Array<Comment> = new Array<Comment>();
+	comment: Comment = new Comment();
+	orderId = this.data.orderId;
+	taskId = this.data.taskId;
+
+	constructor(private commentService: CommentService, @Inject(MAT_DIALOG_DATA) public data: any,
+	  private errorService: ErrorService) {}
+
+	ngOnInit() {
+		this.loadComments();
+	}
+
+    deleteComment = (commentId: number) => this.commentService.delete(0, this.orderId, this.taskId, commentId)
+        .subscribe(this.loadComments);
+
+    resetComment = () => this.comment = new Comment();
+
+    private validateComment = () => !!this.comment && !!this.comment.text;
+
+
+	private loadComments = () => this.commentService.get(0, this.orderId, this.taskId)
+		.subscribe(comments => this.comments = comments);
+
+    createComment() {
+
+        this.validateForm(this.validateComment, "Must fills comment field");
+
+        this.comment.author = new User(this.getCurrentUser());
+        this.comment.creationDate = new Date();
+        this.commentService.post(0, this.orderId, this.taskId, JSON.stringify(this.comment))
+            .subscribe(this.loadComments).add(this.resetComment);
+    }
+
+    private validateForm(functionToValidate, errorMessage) {
+        let isValidaForm: Boolean = functionToValidate(); 
+        if (!isValidaForm) {
+            this.errorService.showErrorMessage(errorMessage);
+        }
+	}
+
+    private getCurrentUser = () => {
+        let currentUser = localStorage.getItem('currentUser');
+        return currentUser ? currentUser.replace(/['"]+/g, '') : undefined;
+    }
 }

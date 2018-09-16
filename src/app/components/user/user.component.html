@@ -117,6 +117,7 @@
               <label for="rol">Role</label>
               <select [(ngModel)]="model.rol" #rol="ngModel" name="rol" class="form-control" 
                 id="rol" required>
+                <option [ngValue]="undefined"> - </option>
                 <option *ngFor="let rol of roles" 
                   [ngValue]="rol">{{rol.name}}</option>
               </select>

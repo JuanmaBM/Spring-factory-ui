@@ -8,6 +8,7 @@ import { ErrorService } from "../../../services/error.service";
 import { WorkLog } from "../../../model/worklog.model";
 import { Comment } from "../../../model/comment.model";
 import { User } from "../../../model/user.model";
+import { AppComponent } from "../../../app.component";
 import { Group } from "../../../model/group.model";
 
 @Component({
@@ -37,12 +38,17 @@ export class TaskDetailsComponent implements OnInit {
 
     ngOnInit() {
 
-        this.currentUser = localStorage.getItem('currentUser');
+        this.currentUser = this.getCurrentUser();
         this.taskId = this.data.task.id;
         this.orderId = this.data.order.id;
 
         this.taskService.get(0, this.orderId, this.taskId).subscribe(task => this.task = task)
             .add(this.loadWorkLogs).add(this.loadComments);
+    }
+
+    private getCurrentUser = () => {
+        let currentUser = localStorage.getItem('currentUser');
+        return currentUser ? currentUser.replace(/['"]+/g, '') : undefined;
     }
 
     loadWorkLogs = () => 
