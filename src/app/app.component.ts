@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service'
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { AuthService } from './services/auth.service'
 export class AppComponent implements OnInit {
 
   title = 'Spring Factory UI';
-  static API_URL = "http://localhost:8080"
+  static API_URL = environment.host;
   menu: Array<any> = [];
   permissions: string = "";
 
@@ -27,24 +28,26 @@ export class AppComponent implements OnInit {
 
     let menuOptions: Array<any> = [];
 
-    if (this.permissions.indexOf('MANAGE_USER') > 0) {
-      menuOptions.push({link: '/user', text: 'Manage users'});
-    }
+    if (this.permissions) {
+      if (this.permissions.indexOf('MANAGE_USER') > 0) {
+        menuOptions.push({link: '/user', text: 'Manage users'});
+      }
 
-    if (this.permissions.indexOf('MANAGE_ROLE') > 0) {
-      menuOptions.push({link: '/role', text: 'Manage roles'});
-    }
+      if (this.permissions.indexOf('MANAGE_ROLE') > 0) {
+        menuOptions.push({link: '/role', text: 'Manage roles'});
+      }
 
-    if (this.permissions.indexOf('MANAGE_GROUP') > 0) {
-      menuOptions.push({link: '/group', text: 'Manage groups'});
-    }
+      if (this.permissions.indexOf('MANAGE_GROUP') > 0) {
+        menuOptions.push({link: '/group', text: 'Manage groups'});
+      }
 
-    if (this.permissions.indexOf('MANAGE_SCHEDULES') > 0) {
-      menuOptions.push({link: '/schedule', text: 'Manage production schedules'});
-    }
+      if (this.permissions.indexOf('MANAGE_SCHEDULES') > 0) {
+        menuOptions.push({link: '/schedule', text: 'Manage production schedules'});
+      }
 
-    if (this.permissions.indexOf('MANAGE_TASK') > 0) {
-      menuOptions.push({link: '/task', text: 'Register production data'});
+      if (this.permissions.indexOf('MANAGE_TASK') > 0) {
+        menuOptions.push({link: '/task', text: 'Register production data'});
+      }
     }
 
     return menuOptions;
