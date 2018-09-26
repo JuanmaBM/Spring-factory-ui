@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   static API_URL = environment.host;
   menu: Array<any> = [];
   permissions: string = "";
+  currentUser: string = "";
 
   constructor(private authService: AuthService, private router: Router) {
     this.authService.changeLogin.subscribe(_ => this.ngOnInit());
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     this.permissions = localStorage.getItem('permissions');
+    this.currentUser = localStorage.getItem('currentUser').replace(/['"]+/g, '');
     this.menu = this.buildMenu();
   }
 

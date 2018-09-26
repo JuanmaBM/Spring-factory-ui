@@ -1,0 +1,14 @@
+.jumbotron {
+    margin-bottom: 0px;
+    background-image: url(http://htmasterbatch.com/imagenes/banner_inicio.jpg);
+    background-position-x: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: white;
+    background-color: #0066ab;
+    text-shadow: black 0.3em 0.3em 0.3em;
+}
+
+btn {
+    height: 100%;
+}
